@@ -1,0 +1,22 @@
+{
+  "name": "uint-js",
+  "version": "0.0.1",
+  "description": "Arbitrary precision unsigned integer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flowgrammable/uint-js.git"
+  },
+  "author": "Jasson Casey, Colton Chojnacki",
+  "license": "APL 2.0",
+  "bugs": {
+    "url": "https://github.com/flowgrammable/uint-js/issues"
+  },
+  "homepage": "https://github.com/flowgrammable/uint-js",
+  "dependencies": {
+    "underscore": "^1.8.3"
+  }
+}
