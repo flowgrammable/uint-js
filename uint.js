@@ -2,7 +2,31 @@
 
 'use strict';
 
+var root = this;
+
+// libraries to import 
+var _ = null;
+
+if(typeof exports !== 'undefined') {
+  if(typeof module !== 'undefined' && module.exports) {
+    exports = module.exports = UInt;
+  }
+  exports.UInt = UInt;
+  _ = require('underscore');
+} else {
+  root.UInt = UInt;
+  _ = root._;
+}
+
+if(typeof define === 'function' && define.amd) {
+  define('UInt', ['underscore'], function(_) {
+    return UInt(_);
+  })
+}
+
 var _ = require('underscore');
+
+function UInt(_) {
 
 var Pattern = /^(0x)?[0-9a-fA-F]+$/;
    
