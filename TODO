@@ -1,0 +1,7 @@
+1. Update UInt interface to work with backend (node) or frontend (requirejs?)
+2. Add test harness and integrate tests
+3. Implement
+   - lshift: code and tests
+   - rshift: code and tests
+   - plus: code and tests
+   - minus: code and tests

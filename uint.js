@@ -10,6 +10,14 @@ function isHexStr(input) {
   return /^\\x/.test(input);
 }
 
+function isInteger(value) {
+  return _(value).isFinite() && (value % 1 === 0);
+}
+
+function isNatural(value) {
+  return isInteger(value) && value >= 0;
+}
+
 function padZeros(input, len) {
   len -= input.length;
   if(len < 1) { return input; }
@@ -43,7 +51,7 @@ exports.maxFromBytes = maxFromBytes;
 
 function isBits(bits) {
   return function(val) {
-    return _(val).isFinite() (val % 1 === 0) && val >= 0 && val < 
+    return isNatural(val) && howManyBits(val) <= bits;
   };
 }
 
@@ -52,22 +60,42 @@ var isUInt16 = is(16);
 var isUInt32 = is(32);
 
 function normalizeNumber(val) {
+  var bits = howManyBits(val);
+  var bytes = howManyBytes(val);
+  var value;
+  if(bits <= 32) {
+    value = val;
+  } else {
+    value = _(bytes).times(function(idx) {
+      var result = val % 256;
+      val = Match.floor(val / 8);
+      return result;
+    });
+  } 
+  return {
+    value: value,
+    bits:  (bits % 8),
+    bytes: Math.floor(bits / 8)
+  };
 }
 
 function normalizeArray(vals) {
+  return {
+    value: vals,
+    bits:  0,
+    bytes: vals.length
+  };
 }
 
 function normalizeString(str) {
 }
 
 function normalize(value) {
-  if(_(value).isNumber()) {
+  if(isNatural(value) && howManyBits(value) <= 52) {
     return normalizeNumber(value);
   } else if(_(value).isArray() && 
-            _(value).every(
-              function(val) { 
-                return _(val).isFinite() && (vale % 1 === 0) && 
-                       val >= 0 && val < 256
+            _(value).every(function(val) { 
+                return isNatural(val) && val < 256;
             })) {
     return normalizeArray(value);
   } else if(_(value).isString()) {
@@ -77,16 +105,10 @@ function normalize(value) {
   }
 }
 
-function assertSame(lhs, rhs) {
-  if(lhs._bits !== rhs._bits || lhs._bytes !== rhs._bytes) {
-    throw 'Incompatible UInt types: ' + lhs.toString() + ' ' + rhs.toString();
-  }
-}
-
 function UInt(args) {
-  this._value = normalize(value)  || null;
-  this._bytes = args ? args.bytes || howManyBytes(value) : null;
-  this._bits  = args ? args.bits  || howManyBits(value)  : null;
+  var result  = args && args.value ? normalize(args.value) : null;
+  this._bytes = args ? args.bytes || howManyBytes(value)   : null;
+  this._bits  = args ? args.bits  || howManyBits(value)    : null;
 }
 exports.UInt = UInt;
 
@@ -107,6 +129,7 @@ UInt.prototype.bits = function() {
 
 UInt.prototype.value = function(value) {
   if(value) {
+    // FIXME handle overflow
     this._value = normalize(value);
   } else {
     return this._value;
@@ -116,17 +139,20 @@ UInt.prototype.value = function(value) {
 UInt.prototype.toString = function(base, sep) {
   var prefix = base && base === 16 ? '0x' : '';
   var delim  = sep || '';
+  var result;
   if(_(this._value).isNumber()) {
     if(base === 16) {
-      return prefix + padZeros(this._value.toString(base), 2 * this._bytes);
+      var halfOctets = 2 * this._bytes + Math.ceil(this._bits / 4);
+      result = padZeros(this._value.toString(base), halfOctets); 
     } else {
-      return prefix + this._value.toString(base);
+      result = this._value.toString(base);
     }
   } else {
-    return prefix + _(this._value).map(function(v) {
+    result = _(this._value).map(function(v) {
       return padZeros(v.toString(base), 2);
     }).join(delim);
   }
+  return prefix + result;
 };
 
 UInt.prototype.isValid = function() {
@@ -141,6 +167,10 @@ UInt.prototype.copy = function(uint) {
   } else {
     this._value = uint._value;
   }
+};
+
+UInt.prototype.clone = function() {
+  return (new UInt()).copy(this);
 };
 
 UInt.prototype.toJSON = function() {
@@ -199,6 +229,20 @@ UInt.prototype.neg = function() {
   return this;
 };
 
+UInt.prototype.mask = function(src, mask) {
+  assertSame('mask', this, src);
+  assertSame('mask', this, mask);
+  if(_(this._value).isNumber()) {
+    this._value = ((this._value & ~mask._value) | (src._value & mask._value)) >>> 0;
+  } else {
+    this._value = _.map(_.zip(this._value, src._value, mask._value),
+      function(triple) {
+        return ((triple[0] & ~triple[2]) | (triple[1] & triple[2])) >>> 0;
+      });
+  }
+  return this;
+};
+
 UInt.prototype.equal = function(rhs) {
   return _.isEqual(this, rhs);
 };
@@ -220,7 +264,7 @@ UInt.prototype.less = function(rhs) {
 };
 
 UInt.prototype.lessEqual = function(rhs) {
-  return this.less(rhs) || this.equal(rhs);;
+  return this.less(rhs) || this.equal(rhs);
 };
 
 UInt.prototype.greater = function(rhs) {
@@ -232,6 +276,7 @@ UInt.prototype.greaterEqual = function(rhs) {
 };
 
 UInt.prototype.lshift = function(amt) {
+  //FIXME implement
   if(_(this._value).isNumber()) {
   } else {
   }
@@ -239,6 +284,7 @@ UInt.prototype.lshift = function(amt) {
 };
 
 UInt.prototype.rshift = function(amt) {
+  //FIXME implement
   if(_(this._value).isNumber()) {
   } else {
   }
@@ -247,6 +293,7 @@ UInt.prototype.rshift = function(amt) {
 
 UInt.prototype.plus = function(rhs) {
   assertSame('plus', this, rhs);
+  //FIXME implement
   if(_(this._value).isNumber()) {
   } else {
   }
@@ -255,10 +302,80 @@ UInt.prototype.plus = function(rhs) {
 
 UInt.prototype.minus = function(rhs) {
   assertSame('minus', this, rhs);
+  //FIXME implement
   if(_(this._value).isNumber()) {
   } else {
   }
   return this;
+};
+
+exports.and = function(lhs, rhs) {
+  var result = lhs.clone();
+  return result.and(rhs);
+};
+
+exports.or = function(lhs, rhs) {
+  var result = lhs.clone();
+  return result.or(rhs);
+};
+
+exports.xor = function(lhs, rhs) {
+  var result = lhs.clone();
+  return result.xor(rhs);
+};
+
+exports.neg = function(lhs) {
+  var result = lhs.clone();
+  return result.neg();
+};
+
+exports.mask = function(lhs, src, mask) {
+  var result = lhs.clone();
+  return result.mask(src, mask);
+};
+
+exports.equal = function(lhs, rhs) {
+  return lhs.equal(rhs);
+};
+
+exports.notEqual = function(lhs, rhs) {
+  return lhs.notEqual(rhs);
+};
+
+exports.less = function(lhs, rhs) {
+  return lhs.less(rhs);
+};
+
+exports.lessEqual = function(lhs, rhs) {
+  return lhs.lessEqual(rhs);
+};
+
+exports.greater = function(lhs, rhs) {
+  return lhs.greater(rhs);
+};
+
+exports.greaterEqual = function(lhs, rhs) {
+  return lhs.greaterEqual(rhs);
+};
+
+exports.plus = function(lhs, rhs) {
+  var result = lhs.clone();
+  return lhs.plus(rhs);
+};
+
+exports.minus = function(lhs, rhs) {
+  var result = lhs.clone();
+  return lhs.minus(rhs);
+};
+
+exports.lshift = function(lhs, rhs) {
+  var result = lhs.clone();
+  return result.lshift(rhs);
+};
+
+exports.rshift = function(lhs, rhs) {
+  var result = lhs.clone();
+  return result.rshift(rhs);
 };
 
 })();
