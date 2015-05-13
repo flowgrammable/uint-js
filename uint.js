@@ -107,13 +107,14 @@ function normalize(value) {
   }
 }
 
+// FIXME old version memoizes 'HEX' if used to set
 function UInt(args) {
   // Assign default valus
   this._value = null;
   this._bytes = null;
   this._bits  = null;
   // Set constraints if present
-  if(args && (args.bits || args.bytes)) {
+  if(args && (!!args.bits || !!args.bytes)) {
     // Set the size if either is used
     this._bits  = args.bits  || 0;
     this._bytes = args.bytes || 0;
@@ -122,7 +123,7 @@ function UInt(args) {
     this._bits = this._bits % 8;
   }
   // Set the value and check if present
-  if(args && args.value) {
+  if(args && !!args.value) {
     var result = normalize(args.value);
     this._value = result.value;
     // Set the sizes or validate if present
