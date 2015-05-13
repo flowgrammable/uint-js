@@ -82,14 +82,37 @@ function normalizeNumber(val) {
 }
 
 function normalizeArray(vals) {
+  var bits = howManyBits(vals[0]) % 8;
+  var bytes = bits > 0 ? vals.length - 1 : vals.length;
   return {
     value: vals,
-    bits:  0,
-    bytes: vals.length
+    bits:  bits,
+    bytes: bytes
   };
 }
 
 function normalizeString(str) {
+  var result = parseInt(str);
+  if(howManyBits(result) > 52) {
+    if(/^0x/.test(str)) {
+      // chop off the hex prefix
+      str = str.substr(2);
+      // build an array of converted hex pairs
+      result = [];
+      for(var i = str.length - 1; i > 0; i -= 2) {
+        result.splice(0, 0, parseInt(str.substr(i-1, 2), 16));
+      }
+      // add a leading zero on odd length hex strings
+      if(str.length % 2 !== 0) {
+        result.splice(0, 0, 0);
+      }
+      return normalizeArray(result);
+    } else {
+      throw 'Cannot normalize string, large value must be hex: ' + str;
+    }
+  } else {
+    return normalizeNumber(result);
+  }
 }
 
 function normalize(value) {
@@ -133,6 +156,12 @@ function UInt(args) {
     } else if(this._bytes < result.bytes || 
              (this._bytes === result.bytes && this._bits < result.bits)) {
       throw 'Value is larger than size constraints: ' + args.value;
+    }
+    // Insert any necessary leading zeros
+    if(_(this._value).isArray()) {
+      _(this._bytes - this._value.length).times(function() {
+        this._value.splice(0, 0, 0);
+      }, this);
     }
   }
 }
