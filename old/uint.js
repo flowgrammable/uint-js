@@ -102,29 +102,6 @@ function consStr(bits) {
   };
 }
 
-// Construct a funtion that converts either a natural number or array of natural
-// numbers to a user display string.
-//
-// toString :: Nat | [Nat] -> String
-//
-function toString(bits) {
-  return function(value, isHex) {
-    if(_(value).isArray()) {
-      return '0x'+_(value).map(function(octet) {
-        return padZeros(octet.toString(16), 2);
-      }).join('');
-    } else if(_(value).isFinite()) {
-      if(isHex) {
-        return '0x'+padZeros(value.toString(16), 2*(bits/8));
-      } else {
-        return value.toString(10);
-      }
-    } else {
-      throw 'toString on bad value: '+value;
-    }
-  };
-}
-
 function UInt(uint, value, bytes) {
   if(_.isObject(uint)) {
     if(uint.bytes > 4) {

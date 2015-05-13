@@ -13,10 +13,12 @@ function isHexStr(input) {
 function isInteger(value) {
   return _(value).isFinite() && (value % 1 === 0);
 }
+exports.isInteger = isInteger;
 
 function isNatural(value) {
   return isInteger(value) && value >= 0;
 }
+exports.isNatural = isNatural;
 
 function padZeros(input, len) {
   len -= input.length;
@@ -106,9 +108,32 @@ function normalize(value) {
 }
 
 function UInt(args) {
-  var result  = args && args.value ? normalize(args.value) : null;
-  this._bytes = args ? args.bytes || howManyBytes(value)   : null;
-  this._bits  = args ? args.bits  || howManyBits(value)    : null;
+  // Assign default valus
+  this._value = null;
+  this._bytes = null;
+  this._bits  = null;
+  // Set constraints if present
+  if(args && (args.bits || args.bytes)) {
+    // Set the size if either is used
+    this._bits  = args.bits  || 0;
+    this._bytes = args.bytes || 0;
+    // Normalize the byte/bit counts
+    this._bytes += Math.floor(this._bits / 8);
+    this._bits = this._bits % 8;
+  }
+  // Set the value and check if present
+  if(args && args.value) {
+    var result = normalize(args.value);
+    this._value = result.value;
+    // Set the sizes or validate if present
+    if(_(this._bytes).isNull() && _(this._bits).isNull()) {
+      this._bytes = result.bytes;
+      this._bits  = result.bits;
+    } else if(this._bytes < result.bytes || 
+             (this._bytes === result.bytes && this._bits < result.bits)) {
+      throw 'Value is larger than size constraints: ' + args.value;
+    }
+  }
 }
 exports.UInt = UInt;
 

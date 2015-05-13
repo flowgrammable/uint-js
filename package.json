@@ -2,7 +2,7 @@
   "name": "uint-js",
   "version": "0.0.1",
   "description": "Arbitrary precision unsigned integer",
-  "main": "index.js",
+  "main": "uint.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
