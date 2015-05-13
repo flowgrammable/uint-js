@@ -90,6 +90,13 @@ function UInt(args) {
 }
 exports.UInt = UInt;
 
+function assertSame(op, lhs, rhs) {
+  if(lhs._bits !== rhs._.bits || lhs._bytes !== rhs._bytes || 
+     (typeof lhss._value) !== (typeof rhs._value)) {
+    throw op + ' on incompatible types: ' + lhs + ' ' + rhs;
+  }
+}
+
 UInt.prototype.bytes = function() {
   return this._bytes;
 };
@@ -106,8 +113,20 @@ UInt.prototype.value = function(value) {
   }
 };
 
-UInt.prototype.toString = function() {
-  return 'UInt('+this._bytes+':'+this._bits+')';
+UInt.prototype.toString = function(base, sep) {
+  var prefix = base && base === 16 ? '0x' : '';
+  var delim  = sep || '';
+  if(_(this._value).isNumber()) {
+    if(base === 16) {
+      return prefix + padZeros(this._value.toString(base), 2 * this._bytes);
+    } else {
+      return prefix + this._value.toString(base);
+    }
+  } else {
+    return prefix + _(this._value).map(function(v) {
+      return padZeros(v.toString(base), 2);
+    }).join(delim);
+  }
 };
 
 UInt.prototype.isValid = function() {
@@ -124,12 +143,6 @@ UInt.prototype.copy = function(uint) {
   }
 };
 
-UInt.prototype.toView = function(view) {
-};
-
-UInt.prototype.fromView = function(view) {
-};
-
 UInt.prototype.toJSON = function() {
   return JSON.stringify(this);
 };
@@ -139,50 +152,112 @@ UInt.prototype.fromJSON = function(json) {
 };
 
 UInt.prototype.and = function(rhs) {
+  assertSame('and', this, rhs);
+  if(_(this._value).isNumber()) {
+    this._value = (this._value & rhs._value) >>> 0;
+  } else {
+    this._value = _.map(_.zip(this._value, rhs._value), function(pair) {
+      return (pair[0] & pair[1]) >>> 0;
+    });
+  }
   return this;
 };
 
 UInt.prototype.or = function(rhs) {
+  assertSame('or', this, rhs);
+  if(_(this._value).isNumber()) {
+    this._value = (this._value | rhs._value) >>> 0;
+  } else {
+    this._value = _.map(_.zip(this._value, rhs._value), function(pair) {
+      return (pair[0] | pair[1]) >>> 0;
+    });
+  }
   return this;
 };
 
 UInt.prototype.xor = function(rhs) {
+  assertSame('xor', this, rhs);
+  if(_(this._value).isNumber()) {
+    this._value = (this._value ^ rhs._value) >>> 0;
+  } else {
+    this._value = _.map(_.zip(this._value, rhs._value), function(pair) {
+      return (pair[0] ^ pair[1]) >>> 0;
+    });
+  }
   return this;
 };
 
 UInt.prototype.neg = function() {
+  if(_(this._value).isNumber()) {
+    var mask = 0xffffffff >>> (32 - (8 * this._bytes + this._bits));
+    this._value = mask & (~this._value) >>> 0;
+  } else {
+    this._value = _(this._value).map(function(v) {
+      return 0xff & (~v) >>> 0;
+    });
+  }
   return this;
 };
 
 UInt.prototype.equal = function(rhs) {
-  return this;
+  return _.isEqual(this, rhs);
 };
 
 UInt.prototype.notEqual = function(rhs) {
-  return this;
+  return !(this.equal(rhs));
 };
 
 UInt.prototype.less = function(rhs) {
+  assertSame('less', this, rhs);
+  if(_(this._value).isNumber()) {
+    return this._value < rhs._value;
+  } else {
+    return !!_(this._value).find(function(val, idx) {
+      return val < rhs._value[idx];
+    });
+  }
   return this;
 };
 
 UInt.prototype.lessEqual = function(rhs) {
-  return this;
+  return this.less(rhs) || this.equal(rhs);;
 };
 
 UInt.prototype.greater = function(rhs) {
-  return this;
+  return rhs.less(this);
 };
 
 UInt.prototype.greaterEqual = function(rhs) {
-  return this;
+  return this.greater(rhs) || this.equal(rhs);
 };
 
 UInt.prototype.lshift = function(amt) {
+  if(_(this._value).isNumber()) {
+  } else {
+  }
   return this;
 };
 
 UInt.prototype.rshift = function(amt) {
+  if(_(this._value).isNumber()) {
+  } else {
+  }
+  return this;
+};
+
+UInt.prototype.plus = function(rhs) {
+  assertSame('plus', this, rhs);
+  if(_(this._value).isNumber()) {
+  } else {
+  }
+  return this;
+};
+
+UInt.prototype.minus = function(rhs) {
+  assertSame('minus', this, rhs);
+  if(_(this._value).isNumber()) {
+  } else {
+  }
   return this;
 };
 
