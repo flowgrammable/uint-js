@@ -53,7 +53,17 @@ exports.maxFromBytes = maxFromBytes;
 
 function isBits(bits) {
   return function(val) {
-    return isNatural(val) && howManyBits(val) <= bits;
+    if(isNatural(val)) {
+      return howManyBits(val) <= bits;
+    } else if(_(val).isString()) && Pattern.test(val)) {
+      if(bits <= 52) {
+        val = parseInt(val);
+        return val <= maxFromBits(bits);
+      } else if (/^0x/.test(val) {
+        
+      }
+    }
+    return false;
   };
 }
 
