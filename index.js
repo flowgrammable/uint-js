@@ -17,24 +17,29 @@ function padZeros(input, len) {
     return '0';
   }).join('') + input;
 }
+exports.PadZeros = padZeros;
 
 function howManyBits(val) {
   if(val === 0) { return 1; }
   return Math.floor((Math.log(val) / Math.LN2) + 1);
 }
+exports.howManyBits = howManyBits;
   
 function howManyBytes(val) {
   if(val === 0) { return 1; }
   return Math.ceil(howManyBits(val) / 8);
 }
+exports.howManyBytes = howManyBytes;
   
 function maxFromBits(val) {
   return Math.ceil(Math.pow(2, val) - 1);
 }
+exports.maxFromBits = maxFromBits;
 
 function maxFromBytes(val) {
   return Math.ceil(maxFromBits(8 * val));
 }
+exports.maxFromBytes = maxFromBytes;
 
 function isBits(bits) {
   return function(val) {
@@ -72,11 +77,18 @@ function normalize(value) {
   }
 }
 
-function UInt(args) {
-  this._bytes = args ? args.bytes : null;
-  this._bits  = args ? args.bits  : null;
-  this._value = normalize(value) || null;
+function assertSame(lhs, rhs) {
+  if(lhs._bits !== rhs._bits || lhs._bytes !== rhs._bytes) {
+    throw 'Incompatible UInt types: ' + lhs.toString() + ' ' + rhs.toString();
+  }
 }
+
+function UInt(args) {
+  this._value = normalize(value)  || null;
+  this._bytes = args ? args.bytes || howManyBytes(value) : null;
+  this._bits  = args ? args.bits  || howManyBits(value)  : null;
+}
+exports.UInt = UInt;
 
 UInt.prototype.bytes = function() {
   return this._bytes;
@@ -94,11 +106,22 @@ UInt.prototype.value = function(value) {
   }
 };
 
+UInt.prototype.toString = function() {
+  return 'UInt('+this._bytes+':'+this._bits+')';
+};
+
 UInt.prototype.isValid = function() {
-  return this.value !== null;
+  return this._value !== null;
 };
 
 UInt.prototype.copy = function(uint) {
+  this._bits = uint._bits;
+  this._bytes = uint._bytes;
+  if(_(this._value).isArray()) {
+    this._value = uint._value.slice();
+  } else {
+    this._value = uint._value;
+  }
 };
 
 UInt.prototype.toView = function(view) {
@@ -108,9 +131,59 @@ UInt.prototype.fromView = function(view) {
 };
 
 UInt.prototype.toJSON = function() {
+  return JSON.stringify(this);
 };
 
 UInt.prototype.fromJSON = function(json) {
+  _(this).extend(JSON.parse(json));
+};
+
+UInt.prototype.and = function(rhs) {
+  return this;
+};
+
+UInt.prototype.or = function(rhs) {
+  return this;
+};
+
+UInt.prototype.xor = function(rhs) {
+  return this;
+};
+
+UInt.prototype.neg = function() {
+  return this;
+};
+
+UInt.prototype.equal = function(rhs) {
+  return this;
+};
+
+UInt.prototype.notEqual = function(rhs) {
+  return this;
+};
+
+UInt.prototype.less = function(rhs) {
+  return this;
+};
+
+UInt.prototype.lessEqual = function(rhs) {
+  return this;
+};
+
+UInt.prototype.greater = function(rhs) {
+  return this;
+};
+
+UInt.prototype.greaterEqual = function(rhs) {
+  return this;
+};
+
+UInt.prototype.lshift = function(amt) {
+  return this;
+};
+
+UInt.prototype.rshift = function(amt) {
+  return this;
 };
 
 })();
