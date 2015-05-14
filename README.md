@@ -8,8 +8,14 @@ route lookups, or attempting bitwise logical operations over a range of unsigned
 integer widths this library may be helpful for you.
 
 ##Operations Supported
+- Constructors: default, copy, fromJSON
 - Equality: equal, notEqual
 - Relational: less, lessEqual, greater, greaterEqual
 - Logical bitwise: and, or, xor, neg, mask, lshift, rshift
 - Arithmetic: plus, minus
+
+##Construction
+
+##Internal Storage
+
 
