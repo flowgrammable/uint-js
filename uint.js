@@ -2,31 +2,10 @@
 
 'use strict';
 
+// Cache the window or module pointer
 var root = this;
-
-// libraries to import 
+// Ready a variable for the underscore library
 var _ = null;
-
-if(typeof exports !== 'undefined') {
-  if(typeof module !== 'undefined' && module.exports) {
-    exports = module.exports = UInt;
-  }
-  exports.UInt = UInt;
-  _ = require('underscore');
-} else {
-  root.UInt = UInt;
-  _ = root._;
-}
-
-if(typeof define === 'function' && define.amd) {
-  define('UInt', ['underscore'], function(_) {
-    return UInt(_);
-  })
-}
-
-var _ = require('underscore');
-
-function UInt(_) {
 
 var Pattern = /^(0x)?[0-9a-fA-F]+$/;
    
@@ -79,11 +58,11 @@ function isBits(bits) {
   return function(val) {
     if(isNatural(val)) {
       return howManyBits(val) <= bits;
-    } else if(_(val).isString()) && Pattern.test(val)) {
+    } else if(_(val).isString() && Pattern.test(val)) {
       if(bits <= 52) {
         val = parseInt(val);
         return val <= maxFromBits(bits);
-      } else if (/^0x/.test(val) {
+      } else if (/^0x/.test(val)) {
         
       }
     }
@@ -467,4 +446,26 @@ exports.rshift = function(lhs, rhs) {
   return result.rshift(rhs);
 };
 
-})();
+var Symbols = {
+  UInt: UInt
+};
+
+if(typeof exports !== 'undefined') {
+  if(typeof module !== 'undefined' && module.exports) {
+    exports = module.exports = Symbols;
+  }
+  exports.UInt = Symbols;
+  _ = require('underscore');
+} else {
+  root.UInt = Symbols;
+  _ = root._;
+}
+
+if(typeof define === 'function' && define.amd) {
+  define('UInt', ['underscore'], function(underscore) {
+    _ = underscore;
+    return Symbols; 
+  });
+} 
+
+}.call(this));
