@@ -153,8 +153,70 @@ describe('Construction internal value testing', function() {
       0xff, 0xff, 0xff, 0xff,
       0xff, 0xff, 0xff, 0xff
     ]);
+    expect(val.value()).to.not.deep.equal([
+      0xff, 0xff, 0xff, 0xf1, 
+      0xff, 0xff, 0xff, 0xff,
+      0xff, 0xff, 0xff, 0xff,
+      0xff, 0xff, 0xff, 0xff
+    ]);
   });
 
+  it('UInt({ value: [....] }) === [....]', function() {
+    var val = new uint.UInt({ value: [
+      0xff, 0xff, 0xff, 0xff, 
+      0xff, 0xff, 0xff, 0xff,
+      0xff, 0xff, 0xff, 0xff,
+      0xff, 0xff, 0xff, 0xff
+    ]});
+    expect(val.value()).to.deep.equal([
+      0xff, 0xff, 0xff, 0xff, 
+      0xff, 0xff, 0xff, 0xff,
+      0xff, 0xff, 0xff, 0xff,
+      0xff, 0xff, 0xff, 0xff
+    ]);
+
+  });
+
+});
+
+describe('Construction from json', function() {
+
+  it('fromJSON({ _value: 2 }).value() === 2', function() {
+    var val = uint.fromJSON(JSON.stringify({
+      _bits: 4,
+      _bytes: 0,
+      _value: 2
+    }));
+    expect(val.value()).to.equal(2);
+  });
+
+});
+
+describe('Construction from copy', function() {
+  it('UInt({ bits: 16, value: 0xffff }) === 0xffff', function() {
+    var val = new uint.UInt({ bits: 16, value: 0xffff });
+    var copy = uint.copy(val);
+    expect(val.value()).to.equal(copy.value());
+
+  });
+  
+  it('UInt({ bytes: 2, value: 0xffff }) === 0xffff', function() {
+    var val = new uint.UInt({ bytes: 2, value: 0xffff });
+    var copy = uint.copy(val);
+    expect(val.value()).to.equal(copy.value());
+  });
+  
+  it('UInt({ bytes: 4, value: 0xffffffff }) === 0xffffffff', function() {
+    var val = new uint.UInt({ bytes: 4, value: 0xffffffff });
+    var copy = uint.copy(val);
+    expect(val.value()).to.equal(copy.value());
+  });
+  
+  it('UInt({ bits: 48, value: 0xffffffffffff }) === 0xffffffffffff', function() {
+    var val = new uint.UInt({ bits: 48, value: 0xffffffffffff });
+    var copy = uint.copy(val);
+    expect(val.value()).to.equal(copy.value());
+  });
 
 });
 

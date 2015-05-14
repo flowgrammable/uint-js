@@ -450,6 +450,18 @@ function rshift(lhs, rhs) {
   return result.rshift(rhs);
 }
 
+function copy(uint) {
+  var result = new UInt();
+  result.copy(uint);
+  return result;
+}
+
+function fromJSON(json) {
+  var result = new UInt();
+  result.fromJSON(json);
+  return result;
+}
+
 var Symbols = {
   // Utility Funcionts
   isInteger:    isInteger,
@@ -460,7 +472,9 @@ var Symbols = {
   howManyBytes: howManyBytes,
   maxFromBytes: maxFromBytes,
   // Unsigned integer type
-  UInt: UInt
+  UInt:     UInt,
+  copy:     copy,
+  fromJSON: fromJSON
 };
 
 if(typeof exports !== 'undefined') {
