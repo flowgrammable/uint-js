@@ -7,6 +7,27 @@ integer library. However, if you are dealing with network addresses, performing
 route lookups, or attempting bitwise logical operations over a range of unsigned
 integer widths this library may be helpful for you.
 
+###Sample Usage
+```
+var Broadcast = new UInt({ bits: 48});  // Ethernet MAC address
+Braodcast.value('0xffffffffffff');      // Set to the Braodcast address
+console.log(MAC.toString());            // Output the string version
+
+// IPv4 network and mask address, construct using values or strings
+var route = new UInt({ bits: 32, value: 0x0a000000 });
+var mask = new UInt({ bits: 32, value: '0xffffff00' });
+
+// IPv4 packet destination address
+var ip = new UInt({ bits: 32, value: 0x0a00000a });
+
+// Perform a route comparison
+if(ip.and(mask).equal(route))   { ... }
+if(equal(route, and(ip, mask))) { ... }
+
+// IPv6 Address
+var IPv6 = new UInt({ bits: 128 });
+```
+
 ##Operations Supported
 - Constructors: default, copy, fromJSON
 - Equality: equal, notEqual
