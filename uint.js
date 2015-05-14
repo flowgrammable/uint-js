@@ -14,14 +14,20 @@ function isHexStr(input) {
 }
 
 function isInteger(value) {
-  return _(value).isFinite() && (value % 1 === 0);
+  // Javascript will convert several types to numbers if it can
+  //  - string of a finite is a finite
+  //  - empty array is a finite
+  //  - array of a finite is a finte
+  //
+  //  We do not want this behavior so we ensure the value is not
+  //  a string or an array
+  return !_(value).isString() && !_(value).isArray() && 
+         _(value).isFinite() && (value % 1 === 0);
 }
-exports.isInteger = isInteger;
 
 function isNatural(value) {
   return isInteger(value) && value >= 0;
 }
-exports.isNatural = isNatural;
 
 function padZeros(input, len) {
   len -= input.length;
@@ -30,29 +36,24 @@ function padZeros(input, len) {
     return '0';
   }).join('') + input;
 }
-exports.PadZeros = padZeros;
 
 function howManyBits(val) {
   if(val === 0) { return 1; }
   return Math.floor((Math.log(val) / Math.LN2) + 1);
 }
-exports.howManyBits = howManyBits;
   
 function howManyBytes(val) {
   if(val === 0) { return 1; }
   return Math.ceil(howManyBits(val) / 8);
 }
-exports.howManyBytes = howManyBytes;
-  
+
 function maxFromBits(val) {
   return Math.ceil(Math.pow(2, val) - 1);
 }
-exports.maxFromBits = maxFromBits;
 
 function maxFromBytes(val) {
   return Math.ceil(maxFromBits(8 * val));
 }
-exports.maxFromBytes = maxFromBytes;
 
 function isBits(bits) {
   return function(val) {
@@ -447,6 +448,15 @@ exports.rshift = function(lhs, rhs) {
 };
 
 var Symbols = {
+  // Utility Funcionts
+  isInteger:    isInteger,
+  isNatural:    isNatural,
+  padZeros:     padZeros,
+  howManyBits:  howManyBits,
+  maxFromBits:  maxFromBits,
+  howManyBytes: howManyBytes,
+  maxFromBytes: maxFromBytes,
+  // Unsigned integer type
   UInt: UInt
 };
 
