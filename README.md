@@ -29,6 +29,7 @@ var IPv6 = new UInt({ bits: 128 });
 ```
 
 ##Types Supported
+- UInt
 
 ##Type Operations Supported
 - Constructors: default, copy, fromJSON
@@ -38,9 +39,23 @@ var IPv6 = new UInt({ bits: 128 });
 - Arithmetic: plus, minus
 
 ##Functions Supported
+- Equality: equal, notEqual
+- Relational: less, lessEqual, greater, greaterEqual
+- Logical bitwise: and, or, xor, neg, mask, lshift, rshift
+- Arithmetic: plus, minus
 
 ##Exceptions Generated
 
 ##Internal Storage
 
+#Defails
 
+##UInt Construction
+
+##UInt equality operations/functions
+
+##UInt relational operations/functions
+
+##UInt logical bitwise operations/functions
+
+##UInt arithmetic operations/functions
