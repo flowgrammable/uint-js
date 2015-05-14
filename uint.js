@@ -70,9 +70,9 @@ function isBits(bits) {
   };
 }
 
-var isUInt8  = is(8);
-var isUInt16 = is(16);
-var isUInt32 = is(32);
+//var isUInt8  = is(8);
+//var isUInt16 = is(16);
+//var isUInt32 = is(32);
 
 function normalizeNumber(val) {
   var bits = howManyBits(val);
