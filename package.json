@@ -18,5 +18,15 @@
   "homepage": "https://github.com/flowgrammable/uint-js",
   "dependencies": {
     "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-mocha-test": "^0.12.7",
+    "jshint": "^2.7.0",
+    "mocha": "^2.2.4"
   }
 }
