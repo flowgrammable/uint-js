@@ -245,10 +245,6 @@ UInt.prototype.clone = function() {
   return (new UInt()).copy(this);
 };
 
-UInt.prototype.toJSON = function() {
-  return JSON.stringify(this);
-};
-
 UInt.prototype.fromJSON = function(json) {
   _(this).extend(JSON.parse(json));
 };
@@ -462,6 +458,14 @@ function fromJSON(json) {
   return result;
 }
 
+function toString(uint) {
+  return uint.toString();
+}
+
+function toJSON(uint) {
+  return JSON.stringify(uint);
+}
+
 var Symbols = {
   // Utility Funcionts
   isInteger:    isInteger,
@@ -473,8 +477,31 @@ var Symbols = {
   maxFromBytes: maxFromBytes,
   // Unsigned integer type
   UInt:     UInt,
+  // Lifecycle operations
   copy:     copy,
-  fromJSON: fromJSON
+  fromJSON: fromJSON,
+  // Unsigned integer serializers
+  toString: toString,
+  toJSON:   toJSON,
+  // Equality operations
+  equal:    equal,
+  notEqual: notEqual,
+  // Relational operations
+  less:         less,
+  lessEqual:    lessEqual,
+  greater:      greater,
+  greaterEqual: greaterEqual,
+  // Logical bitwise operations
+  and:    and,
+  or:     or,
+  xor:    xor,
+  neg:    neg,
+  mask:   mask,
+  lshift: lshift,
+  rshift: rshift,
+  // Arithmetic operations
+  plus:  plus,
+  minus: minus
 };
 
 if(typeof exports !== 'undefined') {
