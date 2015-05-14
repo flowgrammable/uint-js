@@ -1,28 +1,4 @@
 
-  it('UInt(null, 0x1ffff, 2) should fail', function() {
-    expect(function() {
-      new UInt.UInt(null, 0x1ffff, 2);
-    }).toThrow();
-  });
-
-  it('UInt(null, "0x1ffff", 2) should fail', function() {
-    expect(function() {
-      new UInt.UInt(null, '0x1ffff', 2);
-    }).toThrow();
-  });
-
-  it('UInt(null, -1, 2) should fail', function() {
-    expect(function() {
-      new UInt.UInt(null, -1, 2);
-    }).toThrow();
-  });
-
-  it('UInt(null, "-65536", 2) should fail', function() {
-    expect(function() {
-      new UInt.UInt(null, '-65536', 2);
-    }).toThrow();
-  });
-
   it('UInt(null, 0x800, 2).toString()', function() {
     var v = new UInt.UInt(null, '0x800', 2);
     expect(v.toString(16)).toBe('0x0800');
@@ -31,36 +7,6 @@
   it('UInt(null, 12345, 2).toString()', function() {
     var v = new UInt.UInt(null, 12345, 2);
     expect(v.toString(16)).toBe('0x3039');
-  });
-
-  it('UInt(null, "0xx0000", 2)', function() {
-    expect(function() {
-      new UInt.UInt(null, '0xx0000', 2);
-    }).toThrow();
-  });
-
-  it('UInt Construction', function() {
-    expect(function() {
-      new UInt.UInt(null, 'q');
-    }).toThrow();
-    expect(function() {
-      new UInt.UInt(null, '0xx00');
-    }).toThrow();
-    expect(function() {
-      new UInt.UInt(null, 1.2);
-    }).toThrow();
-    expect(function() {
-      new UInt.UInt(null, null, 0);
-    }).toThrow();
-  });
-
-  it('UInt No-Throw Construction', function() {
-    var type_ip  = new UInt.UInt(null, 0x0800, 2);
-    var type_arp = new UInt.UInt(null, 0x0806, 2);
-    var type     = new UInt.UInt(null, null, 2);
-
-    var inval  = new UInt.UInt(null, 0x0a0101f0, 4);
-    var outval = new UInt.UInt(null, 0x0b0101f0, 4);
   });
 
   it('UInt Copy Construction', function() {
@@ -247,11 +193,6 @@
   });
 
   it('Uint consStr throw', function(){
-
-  expect(function(){
-    var f = UInt.consStr('');
-    var t =  f('');
-  }).toThrow();
 
     expect(function(){
       var f = consStr();

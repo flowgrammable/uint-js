@@ -26,6 +26,7 @@ function isInteger(value) {
 }
 
 function isNatural(value) {
+  // Ensure is an integer and non-negative
   return isInteger(value) && value >= 0;
 }
 
@@ -71,9 +72,9 @@ function isBits(bits) {
   };
 }
 
-//var isUInt8  = is(8);
-//var isUInt16 = is(16);
-//var isUInt32 = is(32);
+//var isUInt8  = isBits(8);
+//var isUInt16 = isBits(16);
+//var isUInt32 = isBits(32);
 
 function normalizeNumber(val) {
   var bits = howManyBits(val);
@@ -179,7 +180,6 @@ function UInt(args) {
     }
   }
 }
-exports.UInt = UInt;
 
 function assertSame(op, lhs, rhs) {
   if(lhs._bits !== rhs._.bits || lhs._bytes !== rhs._bytes || 
@@ -378,71 +378,71 @@ UInt.prototype.minus = function(rhs) {
   return this;
 };
 
-exports.and = function(lhs, rhs) {
+function and(lhs, rhs) {
   var result = lhs.clone();
   return result.and(rhs);
 };
 
-exports.or = function(lhs, rhs) {
+function or(lhs, rhs) {
   var result = lhs.clone();
   return result.or(rhs);
 };
 
-exports.xor = function(lhs, rhs) {
+function xor(lhs, rhs) {
   var result = lhs.clone();
   return result.xor(rhs);
 };
 
-exports.neg = function(lhs) {
+function neg(lhs) {
   var result = lhs.clone();
   return result.neg();
 };
 
-exports.mask = function(lhs, src, mask) {
+function mask(lhs, src, mask) {
   var result = lhs.clone();
   return result.mask(src, mask);
 };
 
-exports.equal = function(lhs, rhs) {
+function equal(lhs, rhs) {
   return lhs.equal(rhs);
 };
 
-exports.notEqual = function(lhs, rhs) {
+function notEqual(lhs, rhs) {
   return lhs.notEqual(rhs);
 };
 
-exports.less = function(lhs, rhs) {
+function less(lhs, rhs) {
   return lhs.less(rhs);
 };
 
-exports.lessEqual = function(lhs, rhs) {
+function lessEqual(lhs, rhs) {
   return lhs.lessEqual(rhs);
 };
 
-exports.greater = function(lhs, rhs) {
+function greater(lhs, rhs) {
   return lhs.greater(rhs);
 };
 
-exports.greaterEqual = function(lhs, rhs) {
+function greaterEqual(lhs, rhs) {
   return lhs.greaterEqual(rhs);
 };
 
-exports.plus = function(lhs, rhs) {
+function plus(lhs, rhs) {
   var result = lhs.clone();
   return lhs.plus(rhs);
 };
 
-exports.minus = function(lhs, rhs) {
+function minus(lhs, rhs) {
   var result = lhs.clone();
   return lhs.minus(rhs);
 };
 
-exports.lshift = function(lhs, rhs) {
+function lshift(lhs, rhs) {
   var result = lhs.clone();
   return result.lshift(rhs);
 };
 
-exports.rshift = function(lhs, rhs) {
+function rshift(lhs, rhs) {
   var result = lhs.clone();
   return result.rshift(rhs);
 };
@@ -463,8 +463,9 @@ var Symbols = {
 if(typeof exports !== 'undefined') {
   if(typeof module !== 'undefined' && module.exports) {
     exports = module.exports = Symbols;
+  } else {
+    exports.UInt = Symbols;
   }
-  exports.UInt = Symbols;
   _ = require('underscore');
 } else {
   root.UInt = Symbols;
