@@ -28,14 +28,16 @@ if(equal(route, and(ip, mask))) { ... }
 var IPv6 = new UInt({ bits: 128 });
 ```
 
-##Operations Supported
+##Types Supported
+
+##Type Operations Supported
 - Constructors: default, copy, fromJSON
 - Equality: equal, notEqual
 - Relational: less, lessEqual, greater, greaterEqual
 - Logical bitwise: and, or, xor, neg, mask, lshift, rshift
 - Arithmetic: plus, minus
 
-##Construction
+##Functions Supported
 
 ##Internal Storage
 
