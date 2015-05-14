@@ -39,6 +39,8 @@ var IPv6 = new UInt({ bits: 128 });
 
 ##Functions Supported
 
+##Exceptions Generated
+
 ##Internal Storage
 
 
