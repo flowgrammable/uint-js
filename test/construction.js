@@ -120,3 +120,41 @@ describe('Construction no-throw testing', function() {
 
 });
 
+describe('Construction internal value testing', function() {
+
+  it('UInt({ bits: 16, value: 0xffff }) === 0xffff', function() {
+    var val = new uint.UInt({ bits: 16, value: 0xffff });
+    expect(val.value()).to.equal(0xffff);
+  });
+  
+  it('UInt({ bytes: 2, value: 0xffff }) === 0xffff', function() {
+    var val = new uint.UInt({ bytes: 2, value: 0xffff });
+    expect(val.value()).to.equal(0xffff);
+  });
+  
+  it('UInt({ bytes: 4, value: 0xffffffff }) === 0xffffffff', function() {
+    var val = new uint.UInt({ bytes: 4, value: 0xffffffff });
+    expect(val.value()).to.equal(0xffffffff);
+  });
+  
+  it('UInt({ bits: 48, value: 0xffffffffffff }) === 0xffffffffffff', function() {
+    var val = new uint.UInt({ bits: 48, value: 0xffffffffffff });
+    expect(val.value()).to.deep.equal([
+      0xff, 0xff, 0xff,
+      0xff, 0xff, 0xff
+    ]);
+  });
+  
+  it('UInt({ bytes: 16, value: "0xffffffffffffffffffffffffffffffff" }) === [0xff]', function() {
+    var val = new uint.UInt({ bytes: 16, value: '0xffffffffffffffffffffffffffffffff' });
+    expect(val.value()).to.deep.equal([
+      0xff, 0xff, 0xff, 0xff, 
+      0xff, 0xff, 0xff, 0xff,
+      0xff, 0xff, 0xff, 0xff,
+      0xff, 0xff, 0xff, 0xff
+    ]);
+  });
+
+
+});
+

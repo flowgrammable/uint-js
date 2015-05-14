@@ -39,8 +39,8 @@ function padZeros(input, len) {
 }
 
 function howManyBits(val) {
-  if(val === 0) { return 1; }
-  return Math.floor((Math.log(val) / Math.LN2) + 1);
+  if(val === 0 || val === 1) { return 1; }
+  return Math.ceil(Math.log(val+1) / Math.LN2);
 }
   
 function howManyBytes(val) {
@@ -85,7 +85,7 @@ function normalizeNumber(val) {
   } else {
     value = _(bytes).times(function(idx) {
       var result = val % 256;
-      val = Match.floor(val / 8);
+      val = Math.floor(val / 8);
       return result;
     });
   } 
@@ -173,7 +173,7 @@ function UInt(args) {
       this._bits  = result.bits;
     } else if(this._bytes < result.bytes || 
              (this._bytes === result.bytes && this._bits < result.bits)) {
-      throw 'Value is larger than size constraints: ' + args.value;
+      throw 'Value is larger than size constraints: ' + args.value + ' ' + this._bytes + ':' + this._bits;
     }
     // Insert any necessary leading zeros
     if(_(this._value).isArray()) {
