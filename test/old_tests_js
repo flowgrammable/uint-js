@@ -9,19 +9,6 @@
     expect(v.toString(16)).toBe('0x3039');
   });
 
-  it('UInt Copy Construction', function() {
-    var uint16 = new UInt.UInt(null, 0x0800, 2);
-    var uint24 = new UInt.UInt(null, 0x800, 3);
-    var uint32 = new UInt.UInt(null, 0xFEED0806, 4);
-
-    var copy16 = new UInt.UInt(uint16);
-    expect(copy16.toString(16)).toBe('0x0800');
-    var copy24 = new UInt.UInt(uint24);
-    expect(copy24.toString(16)).toBe('0x000800');
-    var copy32 = new UInt.UInt(uint32);
-    expect(copy32.toString(16)).toBe('0xfeed0806');
-  });
-
   it('UInt Match - Ethernet Type', function() {
     var type1 = new UInt.UInt(null, 0x0800, 2);
     var type2 = new UInt.UInt(null, 0x0806, 2);
@@ -258,41 +245,12 @@
     expect(num('0x1')[4]).toBe(1);
   });
 
-  it('UInt toString natural ', function(){
-    var str = UInt.toString(32);
-    expect(str(1,16)).toBe('0x00000001');
-    expect(str(4294967295, 16)).toBe('0xffffffff');
-  });
-
-  it('UInt toString throw', function(){
- //   expect(function(){
-  //    var str = UInt.toString('');
-  //    var t = str(33, 16);
-  //  }).toThrow();
-
-    expect(function(){
-      var str = UInt.toString({a:'1'});
-      var t = str('a', 16);
-    }).toThrow();
-  });
-
-  it('UInt toString array', function(){
-    var str = UInt.toString(33);
-    expect(str([0,0,0,0,1],16)).toBe('0x0000000001')
-  });
-
   it('UInt addition ', function(){
     var a = new UInt.UInt(null, [255, 255, 255, 255, 255, 254], 6);
     var b = new UInt.UInt(null, [0,0,0,0,0,1], 6);
     expect(a.or(b).value[5]).toBe(255);
 
   });
-
-  it('UInt greater than', function(){
-    var a = new UInt.UInt(null, [255, 255, 255, 255, 255, 255], 6);
-    var b = new UInt.UInt(null, [0,0,0,0,0,1], 6);
-    expect(a.greaterThan(b)).toBe(true);
-  })
 
   it('UInt subtraction', function(){
     var a = new UInt.UInt(null, [255, 255, 255, 255, 255, 0], 6);

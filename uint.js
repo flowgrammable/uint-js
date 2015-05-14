@@ -97,7 +97,9 @@ function normalizeNumber(val) {
 }
 
 function normalizeArray(vals) {
-  var bits = howManyBits(vals[0]) % 8;
+  // FIXME: maybe being too clever
+  //var bits = howManyBits(vals[0]) % 8;
+  var bits = 0;
   var bytes = bits > 0 ? vals.length - 1 : vals.length;
   return {
     value: vals,
@@ -185,8 +187,8 @@ function UInt(args) {
 }
 
 function assertSame(op, lhs, rhs) {
-  if(lhs._bits !== rhs._.bits || lhs._bytes !== rhs._bytes || 
-     (typeof lhss._value) !== (typeof rhs._value)) {
+  if(lhs._bits !== rhs._bits || lhs._bytes !== rhs._bytes || 
+     (typeof lhs._value) !== (typeof rhs._value)) {
     throw op + ' on incompatible types: ' + lhs + ' ' + rhs;
   }
 }
@@ -324,11 +326,13 @@ UInt.prototype.less = function(rhs) {
   if(_(this._value).isNumber()) {
     return this._value < rhs._value;
   } else {
-    return !!_(this._value).find(function(val, idx) {
-      return val < rhs._value[idx];
-    });
+    for(var idx = 0; idx < this._value.length; ++idx) {
+      if(this._value[idx] < rhs._value[idx]) {
+        return true;
+      }
+    }
+    return false;
   }
-  return this;
 };
 
 UInt.prototype.lessEqual = function(rhs) {
