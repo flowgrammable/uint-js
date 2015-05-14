@@ -108,6 +108,9 @@ function normalizeArray(vals) {
 
 function normalizeString(str) {
   var result = parseInt(str);
+  if(_(result).isNaN()) {
+    throw 'Cannot normalize string, must be a valid unsigned integer: ' + str;
+  }
   if(howManyBits(result) > 52) {
     if(/^0x/.test(str)) {
       // chop off the hex prefix
@@ -152,7 +155,7 @@ function UInt(args) {
   this._bytes = null;
   this._bits  = null;
   // Set constraints if present
-  if(args && (!!args.bits || !!args.bytes)) {
+  if(args && (isNatural(args.bits) || isNatural(args.bytes))) {
     // Set the size if either is used
     this._bits  = args.bits  || 0;
     this._bytes = args.bytes || 0;
@@ -161,7 +164,7 @@ function UInt(args) {
     this._bits = this._bits % 8;
   }
   // Set the value and check if present
-  if(args && !!args.value) {
+  if(args && (_(args.value).isNumber() || _(args.value).isString() || _(args.value).isArray())) {
     var result = normalize(args.value);
     this._value = result.value;
     // Set the sizes or validate if present
@@ -381,71 +384,71 @@ UInt.prototype.minus = function(rhs) {
 function and(lhs, rhs) {
   var result = lhs.clone();
   return result.and(rhs);
-};
+}
 
 function or(lhs, rhs) {
   var result = lhs.clone();
   return result.or(rhs);
-};
+}
 
 function xor(lhs, rhs) {
   var result = lhs.clone();
   return result.xor(rhs);
-};
+}
 
 function neg(lhs) {
   var result = lhs.clone();
   return result.neg();
-};
+}
 
-function mask(lhs, src, mask) {
+function mask(lhs, src, msk) {
   var result = lhs.clone();
-  return result.mask(src, mask);
-};
+  return result.mask(src, msk);
+}
 
 function equal(lhs, rhs) {
   return lhs.equal(rhs);
-};
+}
 
 function notEqual(lhs, rhs) {
   return lhs.notEqual(rhs);
-};
+}
 
 function less(lhs, rhs) {
   return lhs.less(rhs);
-};
+}
 
 function lessEqual(lhs, rhs) {
   return lhs.lessEqual(rhs);
-};
+}
 
 function greater(lhs, rhs) {
   return lhs.greater(rhs);
-};
+}
 
 function greaterEqual(lhs, rhs) {
   return lhs.greaterEqual(rhs);
-};
+}
 
 function plus(lhs, rhs) {
   var result = lhs.clone();
   return lhs.plus(rhs);
-};
+}
 
 function minus(lhs, rhs) {
   var result = lhs.clone();
   return lhs.minus(rhs);
-};
+}
 
 function lshift(lhs, rhs) {
   var result = lhs.clone();
   return result.lshift(rhs);
-};
+}
 
 function rshift(lhs, rhs) {
   var result = lhs.clone();
   return result.rshift(rhs);
-};
+}
 
 var Symbols = {
   // Utility Funcionts

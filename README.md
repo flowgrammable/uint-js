@@ -50,12 +50,12 @@ var IPv6 = new UInt({ bits: 128 });
 
 #Defails
 
-##UInt Construction
+##Construction
 
-##UInt equality operations/functions
+##Equality operations/functions
 
-##UInt relational operations/functions
+##Relational operations/functions
 
-##UInt logical bitwise operations/functions
+##Logical bitwise operations/functions
 
-##UInt arithmetic operations/functions
+##Arithmetic operations/functions

@@ -66,6 +66,7 @@ describe('Construction throw testing', function() {
     }).to.throw();
   });
 
+  /* FIXME: Determine if these are in fact valid tests
   it('UInt( {bits: 0 }) throws', function() {
     expect(function() {
       new uint.UInt({ bits: 0 });
@@ -77,6 +78,7 @@ describe('Construction throw testing', function() {
       new uint.UInt({ bytes: 0 });
     }).to.throw();
   });
+  */
   
   it('UInt({ value: "" }) throws', function() {
     expect(function() {
