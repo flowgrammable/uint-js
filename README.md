@@ -39,10 +39,12 @@ var IPv6 = new UInt({ bits: 128 });
 - Arithmetic: plus, minus
 
 ##Functions Supported
+- Validation: is
 - Equality: equal, notEqual
 - Relational: less, lessEqual, greater, greaterEqual
 - Logical bitwise: and, or, xor, neg, mask, lshift, rshift
 - Arithmetic: plus, minus
+- Uitility: howManyBits, howManyBytes, maxFromBits, maxFromBytes
 
 ##Exceptions Generated
 
