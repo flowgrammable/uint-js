@@ -3,14 +3,26 @@
   "version": "0.0.1",
   "description": "Arbitrary precision unsigned integer",
   "main": "uint.js",
+  "keywords": [
+    "unsigned",
+    "integer",
+    "arbitrary",
+    "precision",
+    "logical",
+    "bitwise",
+    "flowgrammable"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/flowgrammable/uint-js.git"
   },
-  "author": "Jasson Casey, Colton Chojnacki",
+  "author": "Jasson Casey",
+  "contributors": [{
+    "name": "Colton Chojnacki"
+  }],
   "license": "APL 2.0",
   "bugs": {
     "url": "https://github.com/flowgrammable/uint-js/issues"
