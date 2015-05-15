@@ -163,7 +163,6 @@ describe('Logical bitwise testing', function() {
 
     var val4 = uint.xor(val1, val1);
     var val5 = new uint.UInt({ bytes: 4, value: 0 });
-    console.log(val4);
     expect(uint.equal(val4, val5)).to.be.true;
   });
 
