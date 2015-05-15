@@ -94,6 +94,80 @@ describe('Relational testing', function() {
 });
 
 describe('Logical bitwise testing', function() {
+
+  it('X & Y = Z', function() {
+    var val1 = new uint.UInt({ bytes: 4, value: 0xffffffff });
+    var val2 = new uint.UInt({ bytes: 4, value: 0xf0f0f0f0 });
+    var val3 = uint.and(val1, val2);
+
+    expect(val1.and(val2).value()).to.equal(val2.value());
+    expect(val1.value()).to.equal(val3.value());
+
+    var val4 = uint.and(val1, val1);
+    expect(uint.equal(val1, val4)).to.be.true;
+    
+    var val5 = uint.and(val3, val3);
+    expect(val2.equal(val5)).to.be.true;
+    expect(uint.notEqual(val4, val5)).to.be.false;
+  });
+
+  it('X | Y = Z', function() {
+    var val1 = new uint.UInt({ bytes: 4, value: 0xffffffff });
+    var val2 = new uint.UInt({ bytes: 4, value: 0xf0f0f0f0 });
+    var val3 = uint.or(val1, val2);
+
+    expect(val1.or(val2).value()).to.equal(val1.value());
+    expect(val1.value()).to.equal(val3.value());
+
+    var val4 = uint.or(val1, val1);
+    expect(uint.equal(val1, val4)).to.be.true;
+    
+    var val5 = uint.or(val3, val3);
+    expect(val2.notEqual(val5)).to.be.true;
+    expect(uint.equal(val4, val5)).to.be.true;
+  });
+
+  it('~X = Y', function() {
+    var val1 = new uint.UInt({ bytes: 4, value: 0 });
+    var val2 = new uint.UInt({ bytes: 4, value: 0xffffffff });
+    var val3 = new uint.UInt({ bytes: 4, value: 0xf0f0f0f0 });
+    var val4 = new uint.UInt({ bytes: 4, value: 0x0f0f0f0f });
+
+    expect(uint.neg(val1).value()).to.equal(val2.value());
+    expect(uint.neg(val2).value()).to.equal(val1.value());
+    expect(uint.neg(uint.neg(val1)).value()).to.equal(val1.value());
+    expect(uint.neg(uint.neg(val2)).value()).to.equal(val2.value());
+
+    expect(val1.neg().value()).to.equal(val2.value());
+    expect(val2.neg().neg().value()).to.equal(val1.value());
+    
+    expect(uint.neg(val3).value()).to.equal(val4.value());
+    expect(uint.neg(val4).value()).to.equal(val3.value());
+    expect(uint.neg(uint.neg(val3)).value()).to.equal(val3.value());
+    expect(uint.neg(uint.neg(val4)).value()).to.equal(val4.value());
+
+    expect(val3.neg().value()).to.equal(val4.value());
+    expect(val4.neg().neg().value()).to.equal(val4.value());
+  });
+  
+  it('X ^ Y = Z', function() {
+    var val1 = new uint.UInt({ bytes: 4, value: 0xffffffff });
+    var val2 = new uint.UInt({ bytes: 4, value: 0xf0f0f0f0 });
+    var val3 = uint.xor(val1, val2);
+
+    expect(val1.xor(val2).value()).to.equal(val2.neg().value());
+    //expect(val3.value()).to.equal(val2.neg().value());
+
+    var val4 = uint.xor(val1, val1);
+    //expect(uint.equal(val1, val4.neg())).to.be.true;
+   
+    /*
+    var val5 = uint.xor(val3, val3);
+    expect(val2.notEqual(val5)).to.be.true;
+    expect(uint.equal(val4, val5)).to.be.true;
+    */
+  });
+
 });
 
 describe('Arithmetic testing', function() {

@@ -241,10 +241,12 @@ UInt.prototype.copy = function(uint) {
   } else {
     this._value = uint._value;
   }
+  return this;
 };
 
 UInt.prototype.clone = function() {
-  return (new UInt()).copy(this);
+  var result = new UInt();
+  return result.copy(this);
 };
 
 UInt.prototype.fromJSON = function(json) {
@@ -290,7 +292,7 @@ UInt.prototype.xor = function(rhs) {
 UInt.prototype.neg = function() {
   if(_(this._value).isNumber()) {
     var mask = 0xffffffff >>> (32 - (8 * this._bytes + this._bits));
-    this._value = mask & (~this._value) >>> 0;
+    this._value = (mask & ~this._value) >>> 0;
   } else {
     this._value = _(this._value).map(function(v) {
       return 0xff & (~v) >>> 0;
@@ -300,8 +302,8 @@ UInt.prototype.neg = function() {
 };
 
 UInt.prototype.mask = function(src, mask) {
-  assertSame('mask', this, src);
-  assertSame('mask', this, mask);
+  this.copy(or(and(this, neg(mask)), and(src, mask)));
+  /*  FIXME - this operation should just be a cmposition
   if(_(this._value).isNumber()) {
     this._value = ((this._value & ~mask._value) | (src._value & mask._value)) >>> 0;
   } else {
@@ -310,7 +312,12 @@ UInt.prototype.mask = function(src, mask) {
         return ((triple[0] & ~triple[2]) | (triple[1] & triple[2])) >>> 0;
       });
   }
+  */
   return this;
+};
+
+UInt.prototype.match = function(src, mask) {
+  return equal(this, and(src, mask));
 };
 
 UInt.prototype.equal = function(rhs) {
@@ -470,6 +477,10 @@ function toJSON(uint) {
   return JSON.stringify(uint);
 }
 
+function match(tgt, src, mask) {
+  return tgt.match(src, mask);
+}
+
 var Symbols = {
   // Utility Funcionts
   isInteger:    isInteger,
@@ -503,6 +514,7 @@ var Symbols = {
   mask:   mask,
   lshift: lshift,
   rshift: rshift,
+  match:   match,
   // Arithmetic operations
   plus:  plus,
   minus: minus
