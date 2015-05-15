@@ -50,7 +50,7 @@ var IPv6 = new UInt({ bits: 128 });
 
 ##Internal Storage
 
-#Defails
+#Details
 
 ##Construction
 

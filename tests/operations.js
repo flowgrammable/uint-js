@@ -233,10 +233,11 @@ describe('Logical bitwise testing', function() {
 
     console.log(broadcast);
     console.log(multicast);
+    console.log(mul);
+    console.log(uni);
     expect(uint.match(multicast, broadcast, multicast)).to.be.true;
-    console.log('a');
     expect(uint.match(multicast, uni, multicast)).to.be.false;
-    console.log('b');
+    console.log(uint.and(mul, multicast));
     expect(uint.match(multicast, mul, multicast)).to.be.true;
 
   });
