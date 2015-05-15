@@ -1,6 +1,7 @@
-1. Integrate tests
-2. Implement
-   - lshift: code and tests
-   - rshift: code and tests
-   - plus: code and tests
-   - minus: code and tests
+- lshift: code and tests
+- rshift: code and tests
+- plus: code and tests
+- minus: code and tests
+- is: code and tests
+- mask: code and tests
+- think about bit stream serialization
