@@ -7,7 +7,7 @@ grunt.initConfig({
   },
   mochaTest: {
     test: {
-      src: ['test/**/*.js']
+      src: ['tests/**/*.js']
     }
   },
   watch: {

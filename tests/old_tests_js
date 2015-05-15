@@ -1,14 +1,4 @@
 
-  it('UInt(null, 0x800, 2).toString()', function() {
-    var v = new UInt.UInt(null, '0x800', 2);
-    expect(v.toString(16)).toBe('0x0800');
-  });
-
-  it('UInt(null, 12345, 2).toString()', function() {
-    var v = new UInt.UInt(null, 12345, 2);
-    expect(v.toString(16)).toBe('0x3039');
-  });
-
   it('UInt Match - Ethernet Type', function() {
     var type1 = new UInt.UInt(null, 0x0800, 2);
     var type2 = new UInt.UInt(null, 0x0806, 2);
@@ -149,28 +139,6 @@
     expect(metadata.toString(16)).toBe('0x0802060404060208');
   });
 
-  it('UInt toString', function() {
-    var uint32 = new UInt.UInt(null, 101, 4);
-    var uint24 = new UInt.UInt(null, 101, 3);
-    var uint16 = new UInt.UInt(null, 101, 2);
-    var uint8 = new UInt.UInt(null, 3, 1);
-
-    expect(uint32.toString()).toBe('101');
-    expect(uint32.toString(16)).toBe('0x00000065');
-    expect(uint24.toString()).toBe('101');
-    expect(uint24.toString(16)).toBe('0x000065');
-    expect(uint16.toString()).toBe('101');
-    expect(uint16.toString(16)).toBe('0x0065');
-    expect(uint8.toString()).toBe('3');
-    expect(uint8.toString(16)).toBe('0x03');
-  });
-
-  it('UInt equal', function() {
-    var uint1 = new UInt.UInt(null, 101, 4);
-    var uint2 = new UInt.UInt(null, 101, 4);
-
-    expect(UInt.equal(uint1, uint2)).toBe(true);
-  });
 
   it('UInt Match equal', function() {
     var uint1 = new UInt.Match(null, new UInt.UInt(null, 111,4), new UInt.UInt(null, 222,4));
@@ -179,104 +147,3 @@
     expect(uint1.equal(uint2)).toBe(true);
   });
 
-  it('Uint consStr throw', function(){
-
-    expect(function(){
-      var f = consStr();
-      f('0x01');
-    }).toThrow();
-
-    expect(function(){
-      var f = consStr(8);
-      f();
-    }).toThrow();
-
-    expect(function(){
-      var f = consStr(32);
-      f('0x1ffffffff');
-    }).toThrow(); 
-
-    expect(function(){
-      var f = consStr(-1);
-      f('0xff');
-    }).toThrow();
-
-    expect(function(){
-      var f = consStr(32);
-      f('zz');
-    }).toThrow();
-
-    expect(function(){
-      var f = consStr(32);
-      f('1');
-    }).toThrow();
-
-    expect(function(){
-      var f = consStr(4);
-      f('0x1f');
-    }).toThrow();
-
-    expect(function(){
-      var f = consStr(32);
-      var t = f('0x0x11');
-    }).toThrow();
-
-    // why is this throwing?
-    expect(function(){
-      var f = consStr(32);
-      f('0x00000101');
-    }).toThrow();
-
-  });
-
-  it('UInt consStr natural number', function(){
-    var num = UInt.consStr(32);
-    expect(num('0xffffffff')).toBe(4294967295);
-    expect(num('0x0')).toBe(0);
-    expect(num('0x0a')).toBe(10);
-    expect(num('0x0')).toBe(0);
-    expect(num('0x00000101')).toBe(257);
-  });
-
-  it('Uint consStr array', function(){
-    var num = UInt.consStr(33);
-    expect(num('0x1ffffffff')[0]).toBe(1);
-    expect(num('0x1ffffffff')[1]).toBe(255);
-    expect(num('0x1')[4]).toBe(1);
-  });
-
-  it('UInt addition ', function(){
-    var a = new UInt.UInt(null, [255, 255, 255, 255, 255, 254], 6);
-    var b = new UInt.UInt(null, [0,0,0,0,0,1], 6);
-    expect(a.or(b).value[5]).toBe(255);
-
-  });
-
-  it('UInt subtraction', function(){
-    var a = new UInt.UInt(null, [255, 255, 255, 255, 255, 0], 6);
-    var b = new UInt.UInt(null, [0,0,0,0,0,1], 6);
-    var ans = a.subt(b);
-    expect(ans.value[0]).toBe(255);
-    expect(ans.value[5]).toBe(255);
-
-    var c = new UInt.UInt(null, [255, 0, 0, 0, 0, 1], 6);
-    var d = new UInt.UInt(null, [255, 0, 0, 0, 0, 0], 6);
-    var ansb = c.subt(d);
-    expect(ansb.value[0]).toBe(0);
-    expect(ansb.value[5]).toBe(1);
-
-    var e = new UInt.UInt(null, [255, 0, 0, 0, 0, 0], 6);
-    var f = new UInt.UInt(null, [0, 0, 0, 0, 0, 1], 6);
-    var ansc = e.subt(f);
-    expect(ansc.value[0]).toBe(254);
-    expect(ansc.value[5]).toBe(255);
-  });
-
-  it('UInt bytes > 4 cons', function(){
-    var b = new UInt.UInt(null, 240, 1);
-    expect(b.toString(16)).toBe('0xf0');
-    var a = new UInt.UInt(null, [255, 240, 255, 255, 255, 255, 255, 255], 8);
-    expect(a.toString(16)).toBe('0xfff0ffffffffffff')
-  })
-
-});
