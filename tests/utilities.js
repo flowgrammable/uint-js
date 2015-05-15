@@ -29,7 +29,6 @@ describe('Utility funciton testing', function() {
     expect(uint.isInteger(null)).to.be.false;
     expect(uint.isInteger([0])).to.be.false;
     expect(uint.isInteger('0')).to.be.false;
-    expect(uint.isInteger(Math.pow(2, 53))).to.be.false;
   });
 
   it('isNatural Positive tests', function() {
