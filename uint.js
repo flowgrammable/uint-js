@@ -303,7 +303,10 @@ UInt.prototype.neg = function() {
 
 UInt.prototype.mask = function(src, mask) {
   this.copy(or(and(this, neg(mask)), and(src, mask)));
-  /*  FIXME - this operation should just be a cmposition
+  /*  FIXME - this operation should just be a composition, once the above is
+   *  validated remove what is below
+   *  *********
+   *
   if(_(this._value).isNumber()) {
     this._value = ((this._value & ~mask._value) | (src._value & mask._value)) >>> 0;
   } else {
@@ -481,6 +484,63 @@ function match(tgt, src, mask) {
   return tgt.match(src, mask);
 }
 
+function Match(args) {
+  this.value = new UInt(args ? args.value : null);
+  this.mask  = new UInt(args ? args.mask : null);
+  if(this.value.isValid() && this.mask.isValid()) {
+    this.value.and(mask);
+  }
+}
+
+Match.prototype.copy = function(match) {
+  this.value = copy(match.value);
+  this.mask  = copy(match.mask);
+  return this;
+};
+
+Match.prototype.clone = function() {
+  var result = new Match();
+  result.copy(this);
+  return result;
+};
+
+Match.prototype.fromJSON = function(json) {
+  this.copy(JSON.parse(json));
+  return this;
+};
+
+Match.prototype.equal = function(rhs) {
+  return equal(this.value, rhs.value) && equal(this.mask, rhs.mask);
+};
+
+Match.prototype.notEqual = function(rhs) {
+  return !(this.equal(rhs));
+};
+
+Match.prototype.match = function(value) {
+  return equal(this.value, and(this.mask, value));
+};
+
+Match.prototype.toString = function(base) {
+  return this.value.toString(base) + '/' + this.mask.toString(base);
+};
+
+function makeExactMatch(value) {
+  var zero = new UInt({ value: 0, bits: value.bits, bytes: value.bytes });
+  return new Match({
+    value: value,
+    mask: zero.neg()
+  });
+}
+
+function makeAllMatch(args) {
+  return new Match({
+  var zero = new UInt({ value: 0, bits: value.bits, bytes: value.bytes });
+    value: value,
+    mask: zero
+  });
+}
+
 var Symbols = {
   // Utility Funcionts
   isInteger:    isInteger,
@@ -517,7 +577,12 @@ var Symbols = {
   match:   match,
   // Arithmetic operations
   plus:  plus,
-  minus: minus
+  minus: minus,
+  // UInt Match Type
+  Match: Match,
+  // Match factories
+  makeAllMatch:   makeAllMatch,
+  makeExactMatch: makeExactMatch
 };
 
 if(typeof exports !== 'undefined') {
