@@ -161,6 +161,9 @@ describe('Construction internal value testing', function() {
       0xff, 0xff, 0xff, 0xff
     ]);
 
+    var val2 = new uint.UInt({ bytes: 6, value: '0x010203040506' });
+    expect(val2.value()).to.deep.equal([ 0x01, 0x02, 0x03, 0x04, 0x05, 0x06 ]);
+
   });
 
 });

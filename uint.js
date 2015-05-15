@@ -85,9 +85,9 @@ function normalizeNumber(val) {
   } else {
     value = _(bytes).times(function(idx) {
       var result = val % 256;
-      val = Math.floor(val / 8);
+      val = Math.floor(val / 256);
       return result;
-    });
+    }).reverse();
   } 
   return {
     value: value,
