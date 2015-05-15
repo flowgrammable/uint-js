@@ -155,17 +155,16 @@ describe('Logical bitwise testing', function() {
     var val2 = new uint.UInt({ bytes: 4, value: 0xf0f0f0f0 });
     var val3 = uint.xor(val1, val2);
 
+    expect(uint.xor(val1, val2).value()).to.equal(val3.value());
+    expect(uint.xor(val1, val2).value()).to.equal(val2.neg().value());
+
     expect(val1.xor(val2).value()).to.equal(val2.neg().value());
-    //expect(val3.value()).to.equal(val2.neg().value());
+    expect(val3.value()).to.equal(val2.neg().value());
 
     var val4 = uint.xor(val1, val1);
-    //expect(uint.equal(val1, val4.neg())).to.be.true;
-   
-    /*
-    var val5 = uint.xor(val3, val3);
-    expect(val2.notEqual(val5)).to.be.true;
+    var val5 = new uint.UInt({ bytes: 4, value: 0 });
+    console.log(val4);
     expect(uint.equal(val4, val5)).to.be.true;
-    */
   });
 
 });
