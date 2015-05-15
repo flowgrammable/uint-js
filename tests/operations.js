@@ -167,6 +167,80 @@ describe('Logical bitwise testing', function() {
     expect(uint.equal(val4, val5)).to.be.true;
   });
 
+  it('Match: X & Y = Z', function() {
+    var all   = new uint.UInt({ bytes: 4, value: 0 });
+    var exact = new uint.UInt({ bytes: 4, value: 0xffffffff });
+    var classA = new uint.UInt({ bytes: 4, value: 0xff000000 });
+    var classB = new uint.UInt({ bytes: 4, value: 0xffff0000 });
+    var classC = new uint.UInt({ bytes: 4, value: 0xffffff00 });
+    var net    = new uint.UInt({ bytes: 4, value: 0x01020300 });
+    var direct = new uint.UInt({ bytes: 4, value: 0x01020301 });
+
+    var p1 = new uint.UInt({ bytes: 4, value: 0x02020301 });
+    var p2 = new uint.UInt({ bytes: 4, value: 0x01030301 });
+    var p3 = new uint.UInt({ bytes: 4, value: 0x01020401 });
+    var p4 = new uint.UInt({ bytes: 4, value: 0x01020304 });
+    var p5 = new uint.UInt({ bytes: 4, value: 0x01020301 });
+
+    var r1 = uint.and(net, all);
+    var r2 = uint.and(net, classA);
+    var r3 = uint.and(net, classB);
+    var r4 = uint.and(net, classC);
+    var r5 = uint.and(direct, exact);
+
+    expect(r1.match(p1, all)).to.be.true;
+    expect(r2.match(p1, classA)).to.be.false;
+    expect(r3.match(p1, classB)).to.be.false;
+    expect(r4.match(p1, classC)).to.be.false;
+    expect(r5.match(p1, exact)).to.be.false;
+
+    expect(r1.match(p2, all)).to.be.true;
+    expect(r2.match(p2, classA)).to.be.true;
+    expect(r3.match(p2, classB)).to.be.false;
+    expect(r4.match(p2, classC)).to.be.false;
+    expect(r5.match(p2, exact)).to.be.false;
+
+    expect(r1.match(p3, all)).to.be.true;
+    expect(r2.match(p3, classA)).to.be.true;
+    expect(r3.match(p3, classB)).to.be.true;
+    expect(r4.match(p3, classC)).to.be.false;
+    expect(r5.match(p3, exact)).to.be.false;
+
+    expect(r1.match(p4, all)).to.be.true;
+    expect(r2.match(p4, classA)).to.be.true;
+    expect(r3.match(p4, classB)).to.be.true;
+    expect(r4.match(p4, classC)).to.be.true;
+    expect(r5.match(p4, exact)).to.be.false;
+
+    expect(r1.match(p5, all)).to.be.true;
+    expect(r2.match(p5, classA)).to.be.true;
+    expect(r3.match(p5, classB)).to.be.true;
+    expect(r4.match(p5, classC)).to.be.true;
+    expect(r5.match(p5, exact)).to.be.true;
+
+    var broadcast = new uint.UInt({ bytes: 6, value: '0xffffffffffff' });
+
+    var multicast = new uint.UInt({ bytes: 6, value: [
+      0x01, 0x0, 0x0, 0x0, 0x0, 0x0
+    ] });
+
+    var uni = new uint.UInt({ bytes: 6, value: '0x102030405060' });
+    var mul = new uint.UInt({ bytes: 6, value: '0x010203040506' });
+
+    expect(uint.match(broadcast, broadcast, broadcast)).to.be.true;
+    expect(uint.match(uni, broadcast, broadcast)).to.be.false;
+    expect(uint.match(mul, broadcast, broadcast)).to.be.false;
+
+    console.log(broadcast);
+    console.log(multicast);
+    expect(uint.match(multicast, broadcast, multicast)).to.be.true;
+    console.log('a');
+    expect(uint.match(multicast, uni, multicast)).to.be.false;
+    console.log('b');
+    expect(uint.match(multicast, mul, multicast)).to.be.true;
+
+  });
+
 });
 
 describe('Arithmetic testing', function() {
