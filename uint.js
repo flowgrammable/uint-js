@@ -534,8 +534,8 @@ function makeExactMatch(value) {
 }
 
 function makeAllMatch(args) {
-  return new Match({
   var zero = new UInt({ value: 0, bits: value.bits, bytes: value.bytes });
+  return new Match({
     value: value,
     mask: zero
   });
