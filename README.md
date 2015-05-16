@@ -29,7 +29,8 @@ var IPv6 = new UInt({ bits: 128 });
 ```
 
 ##Types Supported
-- UInt
+- UInt - unsigned integer with arbitrary bit/byte precision
+- Match - pair of UInt, value and mask, useful for bitstring matching
 
 ##Type Operations Supported
 - Constructors: default, copy, fromJSON
@@ -53,6 +54,8 @@ var IPv6 = new UInt({ bits: 128 });
 #Details
 
 ##Construction
+
+
 
 ##Equality operations/functions
 

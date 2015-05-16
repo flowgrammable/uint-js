@@ -3,7 +3,8 @@
 - plus: code and tests
 - minus: code and tests
 - is: code and tests
-- mask: code and tests
+- mask: tests
+- match: tests
 - think about bit stream serialization
 - browser test harness
   * right now we just run a backend (node) test
