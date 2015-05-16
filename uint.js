@@ -253,6 +253,15 @@ UInt.prototype.fromJSON = function(json) {
   _(this).extend(JSON.parse(json));
 };
 
+UInt.prototype.fromBuffer = function(buffer, order) {
+  if(this._bytes > 4 ) {
+    // this._value = number ...
+  } else {
+    // this._value = array ...
+  }
+  return this;
+};
+
 UInt.prototype.and = function(rhs) {
   assertSame('and', this, rhs);
   if(_(this._value).isNumber()) {
