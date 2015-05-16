@@ -66,13 +66,19 @@ the object is constructed in an invalid state.
 
 ```
 
-new UInt();                       // no boundary width, invalid state
+// no boundary width, invalid state
+new UInt();                       
 
+// Construct with boundary widths
+// .. but defer setting values
 new UInt({ bits: 4 });            // 4 bit width, invalid state
 new UInt({ bytes: 4 });           // 4 byte width, invalid state
 new UInt({ bits: 4, bytes: 2 });  // 20 bit width, invalid state
 new UInt({ bits: 48 });           // 48 bit | 6 byte width, invalid state
 
+new UInt({ value: 0 });
+new UInt({ value: 0x0f0f0f0f });
+new UInt({ value: '0x0f0f0f0f });
 
 ```
 
