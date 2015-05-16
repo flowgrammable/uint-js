@@ -55,7 +55,14 @@ var IPv6 = new UInt({ bits: 128 });
 
 ##Construction
 
-
+The UInt constructor can take an object as a paramter. The object can have
+three properties: bits, bytes, and value. If bits or bytes are specified the
+constructed UInt will be bounded by this precise width. The value may be a 
+number, string, or array of numbers. If no value is provided the UInt is
+initialized to an invalid state; this is useful for deserialization from: JSON,
+memory, file, socket, etc. If bits and bytes are omitted the width of the object
+is fixed to the maximum width necessary to contain the provided value; otherwise
+the object is constructed in an invalid state.
 
 ##Equality operations/functions
 
