@@ -28,6 +28,16 @@ if(equal(route, and(ip, mask))) { ... }
 var IPv6 = new UInt({ bits: 128 });
 ```
 
+###Setup
+- Prerequisites: 
+    - Install Node | IO.js
+    - ```sudo npm install -g grunt-cli```
+- Dependencies
+    - ```npm install```
+- Execute test cases
+    - ```grunt```
+
+
 ##Types Supported
 - UInt - unsigned integer with arbitrary bit/byte precision
 - Match - pair of UInt, value and mask, useful for bitstring matching
