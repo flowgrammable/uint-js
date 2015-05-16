@@ -64,6 +64,10 @@ memory, file, socket, etc. If bits and bytes are omitted the width of the object
 is fixed to the maximum width necessary to contain the provided value; otherwise
 the object is constructed in an invalid state.
 
+```
+var val = new UInt([object]);
+```
+
 ##Equality operations/functions
 
 ##Relational operations/functions
