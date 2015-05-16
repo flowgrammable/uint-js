@@ -65,7 +65,15 @@ is fixed to the maximum width necessary to contain the provided value; otherwise
 the object is constructed in an invalid state.
 
 ```
-var val = new UInt([object]);
+
+new UInt();                       // no boundary width, invalid state
+
+new UInt({ bits: 4 });            // 4 bit width, invalid state
+new UInt({ bytes: 4 });           // 4 byte width, invalid state
+new UInt({ bits: 4, bytes: 2 });  // 20 bit width, invalid state
+new UInt({ bits: 48 });           // 48 bit | 6 byte width, invalid state
+
+
 ```
 
 ##Equality operations/functions
