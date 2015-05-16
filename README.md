@@ -37,7 +37,6 @@ var IPv6 = new UInt({ bits: 128 });
 - Execute test cases
     - ```grunt```
 
-
 ##Types Supported
 - UInt - unsigned integer with arbitrary bit/byte precision
 - Match - pair of UInt, value and mask, useful for bitstring matching
