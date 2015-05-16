@@ -28,14 +28,14 @@ if(equal(route, and(ip, mask))) { ... }
 var IPv6 = new UInt({ bits: 128 });
 ```
 
-###Setup
+###Development Setup
 - Prerequisites: 
-    - Install Node | IO.js
-    - ```sudo npm install -g grunt-cli```
-- Dependencies
-    - ```npm install```
-- Execute test cases
-    - ```grunt```
+    - Install Node or IO.js
+    - Install Grunt globally - ```sudo npm install -g grunt-cli```
+- Dependencies: 
+    - Install local dependencies - ```npm install```
+- Tests:
+    - Execute unit tests - ```grunt```
 
 ##Types Supported
 - UInt - unsigned integer with arbitrary bit/byte precision
