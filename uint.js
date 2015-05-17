@@ -71,6 +71,35 @@ function isBits(bits) {
     return false;
   };
 }
+/*
+ * function is(bits) {
+ *   return function(val) {
+ *     // Test the numeric range if a number
+ *     if(_.isFinite(val) && (val % 1 === 0)) {
+ *       return 0 <= val && val <= maxFromBits(bits);
+ *       // Othrwise validate is an actual string
+ *     } else if(_(val).isString() && Pattern.test(val)) {
+ *       // Check is simple range check if under 32 bits
+ *       if(bits <= 32) {
+ *         val = parseInt(val);
+ *         return val <= maxFromBits(bits);
+ *       // If over 32 bits its a little more complex
+ *       } else {
+ *         // Allow zero without '0x' prefix
+ *         if(val === '0') { return true; }
+ *         // Otherwise require the '0x' prefix for > 32 bit values
+ *           if(!/^0x/.test(val)) { return false; }
+ *           // Remove the '0x' prefix
+ *           val.splice(0, 2);
+ *           // Technically this will not be accurate for bit counts with
+ *           // modulo 1, 2, and 3 .... FIXME
+ *           return val.length <= Math.ceil(bits/4);
+ *         }
+ *       }
+ *       return false;
+ *     };
+ *   }
+ */
 
 //var isUInt8  = isBits(8);
 //var isUInt16 = isBits(16);
@@ -388,6 +417,7 @@ UInt.prototype.plus = function(rhs) {
   assertSame('plus', this, rhs);
   //FIXME implement
   if(_(this._value).isNumber()) {
+    this._value += rhs._value;
   } else {
   }
   return this;
@@ -397,7 +427,20 @@ UInt.prototype.minus = function(rhs) {
   assertSame('minus', this, rhs);
   //FIXME implement
   if(_(this._value).isNumber()) {
+    this._value -= rhs._value;
   } else {
+    /*  old code ... redo
+    var b = [0,0,0,0,0,0];
+    _(this.value).each(function(di, idx){
+      var idxn = this.value.length - 1 - idx;
+      this.value[idxn] -= b[idxn];
+      this.value[idxn] -= sub.value[idxn];
+      if(this.value[idxn] < 0){
+        b[idxn - 1] = this.value[idxn] * -1;
+        this.value[idxn] = 255 | -(this.value[idxn]);
+      }
+    }, this);
+    */
   }
   return this;
 };
