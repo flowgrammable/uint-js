@@ -104,21 +104,39 @@ new UInt({ value: 0 });
 new UInt({ value: 0x0f0f0f0f });
 new UInt({ value: '0x0f0f0f0f });
 new UInt({ value: [ 1, 0, 0, 0, 0, 0, 0, 0, 0 ] });
+
+var x = uint.copy();  // copy construct a new UInt object, as a method
+var x = copy(uint);   // copy construct a new UInt object, as a funciton
+
+// Copy construct a new UInt object, from a json representation, as a function
+var x = fromJSON(JSON.stringify(uint)); 
 ```
 
 ##Accessor operations
-
+The internalized unsigned integer value can be accesses through the value
+method. Providing a parameter to this function will attempt a mutation of the
+internal value, while omitting the parameter will just get the interalized
+value.
 ```
 console.log(x.value());       // Access the internalized UInt value
 x.value(0xffffffffffff);      // Mutate the internalized UInt value
 ```
 
 ##Serializtion operations/functions
-
+A UInt object can be serialized to either a string or a JSON string.
 ```
-fromJSON
-toJSON
-toString
+// UInt method versions of toString
+console.log(uint.toString());           // decimal string representation
+console.log(uint.toString(16));         // hex string representation
+console.log(uint.toString(16, ':'));    // hex rep. with inter-byte separator
+
+// Function versions of toString
+console.log(toString(uint));            // decimal string representation
+console.log(toString(uint, 16));        // hex string representation
+console.log(toString(uint, 16, ':'));   // hex rep. with inter-byte separator 
+
+// Return a JSON representation of the object
+return toJSON(uint);
 ```
 
 ##Equality operations/functions
@@ -174,4 +192,15 @@ return x.plus(y);       // FIXME: not implemented
 return plus(x, y);      // FIXME: not implemented
 return x.minus(y);      // FIXME: not implemented
 return minus(x, y);     // FIXME: not implemented
+```
+
+##Utility operations/funcitons
+These are operations that we use through the UInt library. They primarily deal
+with data representational properties.
+```
+return howManyBits(0x1ffff);    // minimum number of bits needed to store value
+return howManyBytes(0x1ffff);   // minimum number of bytes needed to store value
+return maxFromBytes(6);         // maximum value storage in X bytes
+return maxFromBits(48);         // maximum value storage in X bits
+return isBits(16);              // FIXME: not implemented
 ```

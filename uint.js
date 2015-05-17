@@ -166,7 +166,8 @@ function UInt(args) {
     this._bits = this._bits % 8;
   }
   // Set the value and check if present
-  if(args && (_(args.value).isNumber() || _(args.value).isString() || _(args.value).isArray())) {
+  if(args && (_(args.value).isNumber() || _(args.value).isString() || 
+              _(args.value).isArray())) {
     var result = normalize(args.value);
     this._value = result.value;
     // Set the sizes or validate if present
@@ -175,7 +176,8 @@ function UInt(args) {
       this._bits  = result.bits;
     } else if(this._bytes < result.bytes || 
              (this._bytes === result.bytes && this._bits < result.bits)) {
-      throw 'Value is larger than size constraints: ' + args.value + ' ' + this._bytes + ':' + this._bits;
+      throw 'Value is larger than size constraints: ' + args.value + ' ' + 
+             this._bytes + ':' + this._bits;
     }
     // Insert any necessary leading zeros
     if(_(this._value).isArray()) {
@@ -481,8 +483,8 @@ function fromJSON(json) {
   return result;
 }
 
-function toString(uint) {
-  return uint.toString();
+function toString(uint, base, sep) {
+  return uint.toString(base, sep);
 }
 
 function toJSON(uint) {
