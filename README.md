@@ -75,6 +75,30 @@ distinct exception objects for easier catch handling.
 
 ##Internal Storage
 
+The UInt object stores the successfully constructed unsigned integer value in
+the `_value` property. The type of this property is either a number or an array
+of numbers. The reason for the non-uniform storage type is due to javascript's
+handling of numbers.
+
+Javascript treats all numbers (reals, naturals, integers) as real
+numbers that it can store in a 64 bit floating point register. Integers up to
+2^52 -1 can be safely stored in this register without loss of precision.
+However, javascript's logical bitwise operators only work on 32 bit integer
+representations. This means that for integers that can be stored in 32 bits or 
+less, a javascript number type will work. However, for all larger integers an 
+alterantive representational type is needed.
+
+The UInt library stores all values that can be represented with a 32 bit
+register as a javascript number, otherwise the value is stored in a javascript
+array of numbers where each array cell is an 8 bit value. It might be more
+efficient to store large representations in each cell of an array; however, for
+expediency we chose an 8 bit representation.
+
+If you review our code you will see all UInt methodes will typically test the
+type of the `_value` property for either `Number` or `Array`, and perform a
+slightly different computation accordingly. This is to handle the alternative
+internalized representation of unsigned integers.
+
 ##Construction
 
 The UInt constructor can take an object as a paramter. The object can have
