@@ -7,7 +7,7 @@ integer library. However, if you are dealing with network addresses, performing
 route lookups, or attempting bitwise logical operations over a range of unsigned
 integer widths this library may be helpful for you.
 
-###Sample Usage
+### Sample Usage
 ```
 var Broadcast = new UInt({ bits: 48});  // Ethernet MAC address
 Braodcast.value('0xffffffffffff');      // Set to the Braodcast address
@@ -28,7 +28,7 @@ if(equal(route, and(ip, mask))) { ... }
 var IPv6 = new UInt({ bits: 128 });
 ```
 
-###Development Setup
+### Development Setup
 - Prerequisites: 
     - Install Node or IO.js
     - Install Grunt globally - ```sudo npm install -g grunt-cli```
@@ -37,18 +37,18 @@ var IPv6 = new UInt({ bits: 128 });
 - Tests:
     - Execute unit tests - ```grunt```
 
-##Types Supported
+## Types Supported
 - UInt - unsigned integer with arbitrary bit/byte precision
 - Match - pair of UInt, value and mask, useful for bitstring matching
 
-##Type Operations Supported
+## Type Operations Supported
 - Constructors: default, copy, fromJSON
 - Equality: equal, notEqual
 - Relational: less, lessEqual, greater, greaterEqual
 - Logical bitwise: and, or, xor, neg, mask, lshift, rshift
 - Arithmetic: plus, minus
 
-##Functions Supported
+## Functions Supported
 - Validation: is
 - Equality: equal, notEqual
 - Relational: less, lessEqual, greater, greaterEqual
@@ -56,7 +56,7 @@ var IPv6 = new UInt({ bits: 128 });
 - Arithmetic: plus, minus
 - Uitility: howManyBits, howManyBytes, maxFromBits, maxFromBytes
 
-##Exceptions Generated
+## Exceptions Generated
 The UInt facilities will generate an exception under three conditions:
 construction, internal value mutation, and binary operations/functions. 
 
@@ -73,7 +73,7 @@ supplied operands do not have the same bit/byte width.
 Exceptions are currently explantory strings; they should be refactored into
 distinct exception objects for easier catch handling.
 
-##Internal Storage
+## Internal Storage
 
 The UInt object stores the successfully constructed unsigned integer value in
 the `_value` property. The type of this property is either a number or an array
@@ -99,7 +99,7 @@ type of the `_value` property for either `Number` or `Array`, and perform a
 slightly different computation accordingly. This is to handle the alternative
 internalized representation of unsigned integers.
 
-##Construction
+## Construction
 
 The UInt constructor can take an object as a paramter. The object can have
 three properties: bits, bytes, and value. If bits or bytes are specified the
@@ -134,7 +134,7 @@ var x = copy(uint);   // copy construct a new UInt object, as a funciton
 var x = fromJSON(JSON.stringify(uint)); 
 ```
 
-##Accessor operations
+## Accessor operations
 The internalized unsigned integer value can be accesses through the value
 method. Providing a parameter to this function will attempt a mutation of the
 internal value, while omitting the parameter will just get the interalized
@@ -144,7 +144,7 @@ console.log(x.value());       // Access the internalized UInt value
 x.value(0xffffffffffff);      // Mutate the internalized UInt value
 ```
 
-##Serializtion operations/functions
+## Serializtion operations/functions
 A UInt object can be serialized to either a string or a JSON string.
 ```
 // UInt method versions of toString
@@ -161,7 +161,7 @@ console.log(toString(uint, 16, ':'));   // hex rep. with inter-byte separator
 return toJSON(uint);
 ```
 
-##Equality operations/functions
+## Equality operations/functions
 Equality and inequality methods and functions are provided for the UInt type.
 All equality methods/functions return a boolean.
 ```
@@ -171,7 +171,7 @@ if(x.notEqual(y))  { console.log("x != y"); }
 if(notEqual(x, y)) { console.log("x != y"); }
 ```
 
-##Relational operations/functions
+## Relational operations/functions
 Standard relational methods and functions are provided for the UInt type. All
 relational methods/functions return a boolean;
 
@@ -186,7 +186,7 @@ if(x.greaterEqual(y))  { console.log("x >= y"); }
 if(greaterEqual(x, y)) { console.log("x >= y"); }
 ```
 
-##Logical bitwise operations/functions
+## Logical bitwise operations/functions
 Standard logical bitwise methods and functions are provided for the UInt type.
 These operations only work for UInt's of the same precision. If the calling 
 parameters of either function or mether do not have the bit and byte width, then
@@ -207,7 +207,7 @@ return x.rshift(4);     // FIXME: not implemented
 return rshift(x, 4);    // FIXME: not implemented
 ```
 
-##Arithmetic operations/functions
+## Arithmetic operations/functions
 Plus and minus arithmetic methods and functions are provided for the UInt type.
 These operations only work for UInt's of the same precision. If the calling 
 parameters of either function or mether do not have the bit and byte width, then
@@ -220,7 +220,7 @@ return x.minus(y);      // FIXME: not implemented
 return minus(x, y);     // FIXME: not implemented
 ```
 
-##Utility operations/funcitons
+## Utility operations/funcitons
 These are operations that we use through the UInt library. They primarily deal
 with data representational properties.
 ```
