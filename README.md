@@ -57,6 +57,21 @@ var IPv6 = new UInt({ bits: 128 });
 - Uitility: howManyBits, howManyBytes, maxFromBits, maxFromBytes
 
 ##Exceptions Generated
+The UInt facilities will generate an exception under three conditions:
+construction, internal value mutation, and binary operations/functions. 
+
+An exception is generated during construction if the supplied value requires 
+more bit/byte storage than has been specified with the bit/byte construction
+parameters. Or construction can generate an exception if the supplied value is
+not convertable to an unsigned integer. Mutating the internal value of a UInt
+will generate the same types of exceptions as construction.
+
+The supplied UInt binary operators can also generate exceptions. All of the
+binary operations that return a UInt type will generate an exception if the two
+supplied operands do not have the same bit/byte width.
+
+Exceptions are currently explantory strings; they should be refactored into
+distinct exception objects for easier catch handling.
 
 ##Internal Storage
 
@@ -89,6 +104,21 @@ new UInt({ value: 0 });
 new UInt({ value: 0x0f0f0f0f });
 new UInt({ value: '0x0f0f0f0f });
 new UInt({ value: [ 1, 0, 0, 0, 0, 0, 0, 0, 0 ] });
+```
+
+##Accessor operations
+
+```
+console.log(x.value());       // Access the internalized UInt value
+x.value(0xffffffffffff);      // Mutate the internalized UInt value
+```
+
+##Serializtion operations/functions
+
+```
+fromJSON
+toJSON
+toString
 ```
 
 ##Equality operations/functions
