@@ -74,7 +74,6 @@ is fixed to the maximum width necessary to contain the provided value; otherwise
 the object is constructed in an invalid state.
 
 ```
-
 // no boundary width, invalid state
 new UInt();                       
 
@@ -85,13 +84,22 @@ new UInt({ bytes: 4 });           // 4 byte width, invalid state
 new UInt({ bits: 4, bytes: 2 });  // 20 bit width, invalid state
 new UInt({ bits: 48 });           // 48 bit | 6 byte width, invalid state
 
+// Consturct using numbers, strings, or arrays
 new UInt({ value: 0 });
 new UInt({ value: 0x0f0f0f0f });
 new UInt({ value: '0x0f0f0f0f });
-
+new UInt({ value: [ 1, 0, 0, 0, 0, 0, 0, 0, 0 ] });
 ```
 
 ##Equality operations/functions
+
+```
+if(x.equal(y))  { console.log("method equality is supported"); }
+if(equal(x, y)) { console.log("functional equality is also supported"); }
+
+if(x.notEqual(y))  { console.log("inequality is just a negation on equality"); }
+if(notEqual(x, y)) { console.log("and also provides a functional version"); }
+```
 
 ##Relational operations/functions
 
