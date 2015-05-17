@@ -286,9 +286,14 @@ UInt.prototype.fromJSON = function(json) {
 
 UInt.prototype.fromBuffer = function(buffer, order) {
   if(this._bytes > 4 ) {
-    // this._value = number ...
-  } else {
     // this._value = array ...
+    this._value = _(this._bytes).map(function(bIdx){
+      return buf[bIdx];
+    }).reverse();
+  } else {
+    this._value = buffer.readUInt32BE(0, this._bytes);
+    // this._value = number ...
+    buffer = buffer.slice(this._bytes);
   }
   return this;
 };
