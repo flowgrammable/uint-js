@@ -9,3 +9,6 @@
 - browser test harness
   * right now we just run a backend (node) test
   * we need to have the same set of tests run in a browser environment
+- update README.md code documentation
+  * adopt a regular description pattern
+  * method/function, params, returns, exceptions
