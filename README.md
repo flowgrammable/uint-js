@@ -116,12 +116,32 @@ if(greaterEqual(x, y)) { console.log("x >= y"); }
 
 ##Logical bitwise operations/functions
 Standard logical bitwise methods and functions are provided for the UInt type.
-
+These operations only work for UInt's of the same precision. If the calling 
+parameters of either function or mether do not have the bit and byte width, then
+an exception is generated.
 ```
+return x.and(y);        // Performs a &= and returns this
+return and(x, y);       // Constructs UInt, assigns x & y, returns new UInt
+return x.or(y);         // Performs a |= and returns this
+return or(x, y);        // Constructs UInt, assigns x | y, returns new UInt
+return x.xor(y);        // Performs a ^= and returns this
+return xor(x, y);       // Constructs UInt, assigns x ^ y, returns new UInt
+return x.neg();         // Performs a ~= and returns this
+return neg(x);          // Constructs UInt, assigns ~x, returns new UInt
+return x.lshift(4);     // FIXME: not implemented
+return lshift(x, 4);    // FIXME: not implemented
+return x.rshift(4);     // FIXME: not implemented
+return rshift(x, 4);    // FIXME: not implemented
 ```
 
 ##Arithmetic operations/functions
 Plus and minus arithmetic methods and functions are provided for the UInt type.
-
+These operations only work for UInt's of the same precision. If the calling 
+parameters of either function or mether do not have the bit and byte width, then
+an exception is generated.
 ```
+return x.plus(y);       // FIXME: not implemented
+return plus(x, y);      // FIXME: not implemented
+return x.minus(y);      // FIXME: not implemented
+return minus(x, y);     // FIXME: not implemented
 ```
