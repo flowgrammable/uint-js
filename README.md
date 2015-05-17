@@ -1,4 +1,4 @@
-#UInt
+# UInt
 
 This is a simple javascript library for handing a subset of operations on a
 precise width unsigned integer type. We developed this library to aid in working
