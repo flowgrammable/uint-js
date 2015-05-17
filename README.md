@@ -75,8 +75,6 @@ distinct exception objects for easier catch handling.
 
 ##Internal Storage
 
-#Details
-
 ##Construction
 
 The UInt constructor can take an object as a paramter. The object can have
@@ -141,6 +139,7 @@ return toJSON(uint);
 
 ##Equality operations/functions
 Equality and inequality methods and functions are provided for the UInt type.
+All equality methods/functions return a boolean.
 ```
 if(x.equal(y))     { console.log("x = y"); }
 if(equal(x, y))    { console.log("x = y"); }
@@ -149,7 +148,8 @@ if(notEqual(x, y)) { console.log("x != y"); }
 ```
 
 ##Relational operations/functions
-Standard relational methods and functions are provided for the UInt type.
+Standard relational methods and functions are provided for the UInt type. All
+relational methods/functions return a boolean;
 
 ```
 if(x.less(y)           { console.log("x < y");  }
@@ -166,7 +166,8 @@ if(greaterEqual(x, y)) { console.log("x >= y"); }
 Standard logical bitwise methods and functions are provided for the UInt type.
 These operations only work for UInt's of the same precision. If the calling 
 parameters of either function or mether do not have the bit and byte width, then
-an exception is generated.
+an exception is generated. All logical bitwise methods return the `this`
+reference, all logical bitwise functions return a new UInt object.
 ```
 return x.and(y);        // Performs a &= and returns this
 return and(x, y);       // Constructs UInt, assigns x & y, returns new UInt
@@ -186,7 +187,8 @@ return rshift(x, 4);    // FIXME: not implemented
 Plus and minus arithmetic methods and functions are provided for the UInt type.
 These operations only work for UInt's of the same precision. If the calling 
 parameters of either function or mether do not have the bit and byte width, then
-an exception is generated.
+an exception is generated. All arithmetic methods return the `this` reference, 
+all arithmetic functions return a new UInt object.
 ```
 return x.plus(y);       // FIXME: not implemented
 return plus(x, y);      // FIXME: not implemented
