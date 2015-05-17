@@ -92,17 +92,36 @@ new UInt({ value: [ 1, 0, 0, 0, 0, 0, 0, 0, 0 ] });
 ```
 
 ##Equality operations/functions
-
+Equality and inequality methods and functions are provided for the UInt type.
 ```
-if(x.equal(y))  { console.log("method equality is supported"); }
-if(equal(x, y)) { console.log("functional equality is also supported"); }
-
-if(x.notEqual(y))  { console.log("inequality is just a negation on equality"); }
-if(notEqual(x, y)) { console.log("and also provides a functional version"); }
+if(x.equal(y))     { console.log("x = y"); }
+if(equal(x, y))    { console.log("x = y"); }
+if(x.notEqual(y))  { console.log("x != y"); }
+if(notEqual(x, y)) { console.log("x != y"); }
 ```
 
 ##Relational operations/functions
+Standard relational methods and functions are provided for the UInt type.
+
+```
+if(x.less(y)           { console.log("x < y");  }
+if(less(x, y)          { console.log("x < y");  }
+if(x.lessEqual(y)      { console.log("x <= y"); }
+if(lessEqual(x, y)     { console.log("x <= y"); } 
+if(x.greater(y))       { console.log("x > y");  }
+if(greater(x, y))      { console.log("x > y");  }
+if(x.greaterEqual(y))  { console.log("x >= y"); }
+if(greaterEqual(x, y)) { console.log("x >= y"); }
+```
 
 ##Logical bitwise operations/functions
+Standard logical bitwise methods and functions are provided for the UInt type.
+
+```
+```
 
 ##Arithmetic operations/functions
+Plus and minus arithmetic methods and functions are provided for the UInt type.
+
+```
+```
