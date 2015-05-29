@@ -284,18 +284,11 @@ UInt.prototype.fromJSON = function(json) {
   _(this).extend(JSON.parse(json));
 };
 
-UInt.prototype.fromBuffer = function(buffer, order) {
+UInt.prototype.fromBuffer = function(buffer, consume) {
+  //FIXME
   if(this._bytes > 4 ) {
-    // this._value = array ...
-    this._value = _(this._bytes).map(function(bIdx){
-      return buf[bIdx];
-    }).reverse();
   } else {
-    this._value = buffer.readUInt32BE(0, this._bytes);
-    // this._value = number ...
-    buffer = buffer.slice(this._bytes);
   }
-  return this;
 };
 
 UInt.prototype.and = function(rhs) {
@@ -531,6 +524,11 @@ function fromJSON(json) {
   return result;
 }
 
+function fromBuffer(buf, bits, consume){
+  var result = new UInt({bits: bits});
+  return result.fromBuffer(buf, consume);
+}
+
 function toString(uint, base, sep) {
   return uint.toString(base, sep);
 }
@@ -600,6 +598,11 @@ function makeAllMatch(args) {
   });
 }
 
+function mk(byts, val){
+  var result = new UInt({ bytes: byts, value: val});
+  return result;
+}
+
 var Symbols = {
   // Utility Funcionts
   isInteger:    isInteger,
@@ -611,9 +614,11 @@ var Symbols = {
   maxFromBytes: maxFromBytes,
   // Unsigned integer type
   UInt:     UInt,
+  mk:       mk,
   // Lifecycle operations
   copy:     copy,
   fromJSON: fromJSON,
+  fromBuffer: fromBuffer,
   // Unsigned integer serializers
   toString: toString,
   toJSON:   toJSON,
