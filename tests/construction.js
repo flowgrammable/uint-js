@@ -12,6 +12,12 @@ describe('Construction throw testing', function() {
     }).to.throw();
   });
 
+  it('UInt({ bits: 33, value: 1}) throws', function() {
+    expect(function() {
+      new uint.UInt({bits: 33, value: 1});
+    }).to.throw();
+  });
+
   it('UInt({ bits: 16, value: 0x1ffff }) throws', function() {
     expect(function() {
       new uint.UInt({ bits: 16, value: 0x1ffff });
@@ -104,6 +110,7 @@ describe('Construction no-throw testing', function() {
     new uint.UInt({ bits: 32, value: 0x0b0101f0 });
   });
 
+
 });
 
 describe('Construction internal value testing', function() {
@@ -165,7 +172,7 @@ describe('Construction internal value testing', function() {
     expect(val2.value()).to.deep.equal([ 0x01, 0x02, 0x03, 0x04, 0x05, 0x06 ]);
 
   });
-
+  
 });
 
 describe('Construction from json', function() {
