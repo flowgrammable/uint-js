@@ -100,11 +100,7 @@ function isBits(bits) {
  *     };
  *   }
  */
-function is(bits){
-  return function(){
-    return true;
-  };
-}
+
 //var isUInt8  = isBits(8);
 //var isUInt16 = isBits(16);
 //var isUInt32 = isBits(32);
@@ -239,36 +235,33 @@ UInt.prototype.bits = function() {
 
 UInt.prototype.value = function(value) {
   if(value) {
-    // FIXME handle overflow
-    this._value = normalize(value).value;
+    var result = normalize(value);
+    if(result.bytes > this._bytes || result.bits > this._bits) {
+      throw 'Value is larger than size constraints: ' + value + ' ' +
+            this._bytes + ':' + this._bits;
+    }
+    this._value = result.value;
   } else {
     return this._value;
   }
 };
 
-UInt.prototype.zero = function(){
-  if((this._bytes <= 4 && this._bits ===0) || (this._bytes < 4)){
+UInt.prototype.zero = function() {
+  if(_(this._value).isNumber()) {
     this._value = 0;
   } else {
-    this._value = [];
-    _(this._bytes).times(function(i){
-      this._value.push(0);
-    }, this);
-    if(this._bits){
-      this._value.push(0);
-    }
+    this._value = _(this._value).map(function(val) { return 0; });
   }
 };
 
 UInt.prototype.toString = function(base, sep) {
   var prefix;
-  if(this._isHex){
+  if(base && base === 16 || this._isHex) {
     prefix = '0x';
-    var base = 16;
+    base = 16;
   } else {
     prefix = '';
   }
-  //var prefix = base && base === 16 ? '0x' : '';
   var delim  = sep || '';
   var result;
   if(_(this._value).isNumber()) {
@@ -645,6 +638,15 @@ function mk(byts, val){
 //
 // consStr :: String -> Nat | [Nat] if bits > 32
 //
+
+function consStr(bits) {
+  return function(value) {
+    var uint = new UInt({ bits: bits, value: value });
+    return uint;
+  };
+}
+
+/*
 function consStr(bits) {
   var bytes = Math.ceil(bits / 8);
   var hbytes = Math.ceil(bits / 4);
@@ -712,10 +714,11 @@ function consStr(bits) {
     }
   };
 }
+*/
 
 var Symbols = {
   // Utility Funcionts
-  is:           is,
+  is:           isBits,
   isInteger:    isInteger,
   isNatural:    isNatural,
   padZeros:     padZeros,
