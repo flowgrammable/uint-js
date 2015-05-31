@@ -12,11 +12,13 @@ describe('Construction throw testing', function() {
     }).to.throw();
   });
 
+  /* This should not generate an exception 
   it('UInt({ bits: 33, value: 1}) throws', function() {
     expect(function() {
       new uint.UInt({bits: 33, value: 1});
     }).to.throw();
   });
+  */
 
   it('UInt({ bits: 16, value: 0x1ffff }) throws', function() {
     expect(function() {

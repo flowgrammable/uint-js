@@ -214,6 +214,18 @@ function UInt(args) {
       _(this._bytes - this._value.length).times(function() {
         this._value.splice(0, 0, 0);
       }, this);
+    // Handle the case of user supplied array boundary but small value
+    } else if(this._bytes > 4) {
+      var tmp = [];
+      _(this._bytes).times(function(i) {
+        if(i < 4) {
+          tmp.splice(0, 0, this._value % 256);
+          this._value = Math.floor(this._value / 256);
+        } else {
+          tmp.splice(0, 0, 0);
+        }
+      }, this);
+      this._value = tmp;
     }
   }
 }
