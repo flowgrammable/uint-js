@@ -6,37 +6,37 @@ var uint   = require('../uint');
 
 describe('UInt match testing', function() {
 
-  /*
+  
   it('', function() {
-    var type1 = new UInt.UInt(null, 0x0800, 2);
-    var type2 = new UInt.UInt(null, 0x0806, 2);
+    var type1 = new uint.UInt({value: 0x0800, bytes: 2});
+    var type2 = new uint.UInt({value: 0x0806, bytes: 2});
     
-    var exact1 = new UInt.Match(null,
-      new UInt.UInt(null, 0x0800, 2),
-      new UInt.UInt(null, 0xffff, 2));
-      
-    var exact2 = new UInt.Match.mkExact(type1);
+    var exact1 = new uint.Match({
+      value: uint.mk(2, 0x0800),
+      mask: uint.mk(2, 0xffff)
+    });
+
+    var exact2 = uint.makeExactMatch(type1);
     
-    var wildcard1 = new UInt.Match(null,
-      new UInt.UInt(null, 0x0000, 2),
-      new UInt.UInt(null, 0x0000, 2));
+    var wildcard1 = new uint.Match({
+      value: uint.mk(2, 0x0000),
+      mask: uint.mk(2, 0x0000)
+    });
     
-    var wildcard2 = new UInt.Match.mkWildcard(type1);
-    var wildcard3 = new UInt.Match.mkWildcard(2);
-    
-    expect(exact1.match(type1)).toBe(true);
-    expect(exact2.match(type1)).toBe(true);
-    expect(wildcard1.match(type1)).toBe(true);
-    expect(wildcard2.match(type1)).toBe(true);
-    expect(wildcard3.match(type1)).toBe(true);
+    var wildcard2 = uint.makeAllMatch(type1);
+    var wildcard3 = uint.makeAllMatch(type2);
+    expect(exact1.match(type1)).to.equal(true);
+    expect(exact2.match(type1)).to.equal(true);
+    expect(wildcard1.match(type1)).to.equal(true);
+    expect(wildcard2.match(type1)).to.equal(true);
+    expect(wildcard3.match(type1)).to.equal(true);
                
-    expect(exact1.match(type2)).toBe(false);
-    expect(exact2.match(type2)).toBe(false);
-    expect(wildcard1.match(type2)).toBe(true);
-    expect(wildcard2.match(type2)).toBe(true);
-    expect(wildcard3.match(type2)).toBe(true);
+    expect(exact1.match(type2)).to.equal(false);
+    expect(exact2.match(type2)).to.equal(false);
+    expect(wildcard1.match(type2)).to.equal(true);
+    expect(wildcard2.match(type2)).to.equal(true);
+    expect(wildcard3.match(type2)).to.equal(true);
   });
-  */
 
   /*
   it('', function() {

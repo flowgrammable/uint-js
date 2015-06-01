@@ -65,7 +65,7 @@ function isBits(bits) {
         val = parseInt(val);
         return val <= maxFromBits(bits);
       } else if (/^0x/.test(val)) {
-        
+        return true;
       }
     }
     return false;
@@ -298,6 +298,7 @@ UInt.prototype.isValid = function() {
 UInt.prototype.copy = function(uint) {
   this._bits = uint._bits;
   this._bytes = uint._bytes;
+  this._isHex = uint._isHex;
   if(_(this._value).isArray()) {
     this._value = uint._value.slice();
   } else {
@@ -582,10 +583,10 @@ function match(tgt, src, mask) {
 }
 
 function Match(args) {
-  this.value = new UInt(args ? args.value : null);
-  this.mask  = new UInt(args ? args.mask : null);
+  this.value = copy(args.value);
+  this.mask  = copy(args.mask);
   if(this.value.isValid() && this.mask.isValid()) {
-    this.value.and(mask);
+    this.value.and(this.mask);
   }
 }
 
@@ -623,23 +624,23 @@ Match.prototype.toString = function(base) {
 };
 
 function makeExactMatch(value) {
-  var zero = new UInt({ value: 0, bits: value.bits, bytes: value.bytes });
+  var zero = new UInt({ value: 0, bits: value._bits, bytes: value._bytes });
   return new Match({
-    value: value,
+    value: copy(value),
     mask: zero.neg()
   });
 }
 
 function makeAllMatch(args) {
-  var zero = new UInt({ value: 0, bits: value.bits, bytes: value.bytes });
+  var zero = new UInt({ value: 0, bits: args._bits, bytes: args._bytes });
   return new Match({
-    value: value,
+    value: args,
     mask: zero
   });
 }
 
 function mk(byts, val){
-  var result = new UInt({ bytes: byts, value: val});
+  var result = new UInt({ bytes: byts, value: parseInt(val)});
   return result;
 }
 
