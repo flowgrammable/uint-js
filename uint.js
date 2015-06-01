@@ -570,7 +570,7 @@ function toString(uint, base, sep) {
 
 function dispString(){
   return function(uint){
-    return uint.toString();
+    return uint.toString(16);
   };
 }
 
