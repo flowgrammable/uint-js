@@ -200,6 +200,7 @@ function UInt(args) {
               _(args.value).isArray())) {
     var result = normalize(args.value);
     this._value = result.value;
+
     // Set the sizes or validate if present
     if(_(this._bytes).isNull() && _(this._bits).isNull()) {
       this._bytes = result.bytes;
@@ -228,6 +229,17 @@ function UInt(args) {
       this._value = tmp;
     }
   }
+
+  //Set isHex if string starts with 0x
+    if(args && _(args.value).isString()){
+      var arr = args.value.match(/^0x/i);
+      if(arr !== null){
+        this._isHex = true;
+      }  
+      else{
+        this._isHex = false;
+      }
+    }
 }
 
 function assertSame(op, lhs, rhs) {
@@ -256,6 +268,10 @@ UInt.prototype.value = function(value) {
   } else {
     return this._value;
   }
+};
+
+ UInt.prototype.isHex=function(){
+  return this._isHex;
 };
 
 UInt.prototype.zero = function() {
