@@ -215,6 +215,12 @@ describe('Construction from copy', function() {
     var copy = uint.copy(val);
     expect(val.value()).to.equal(copy.value());
   });
-
 });
 
+describe('Construction of hex number', function() {
+  it('UInt({ value:"0xff" })',function(){
+    var val = new uint.UInt({ value: '0xff' });
+    expect(val.isHex()).to.be.true;
+  });
+
+});
