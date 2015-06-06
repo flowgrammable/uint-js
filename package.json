@@ -1,6 +1,6 @@
 {
   "name": "uint-js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Arbitrary precision unsigned integer",
   "main": "uint.js",
   "keywords": [
@@ -20,9 +20,11 @@
     "url": "https://github.com/flowgrammable/uint-js.git"
   },
   "author": "Jasson Casey",
-  "contributors": [{
-    "name": "Colton Chojnacki"
-  }],
+  "contributors": [
+    {
+      "name": "Colton Chojnacki"
+    }
+  ],
   "license": "APL 2.0",
   "bugs": {
     "url": "https://github.com/flowgrammable/uint-js/issues"
