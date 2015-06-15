@@ -449,6 +449,7 @@ UInt.prototype.greaterEqual = function(rhs) {
 UInt.prototype.lshift = function(amt) {
   //FIXME implement
   if(_(this._value).isNumber()) {
+    this._value = this._value << amt;
   } else {
   }
   return this;
@@ -457,6 +458,7 @@ UInt.prototype.lshift = function(amt) {
 UInt.prototype.rshift = function(amt) {
   //FIXME implement
   if(_(this._value).isNumber()) {
+    this._value = this._value >> amt;
   } else {
   }
   return this;
